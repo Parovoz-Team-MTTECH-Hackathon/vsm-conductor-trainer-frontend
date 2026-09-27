@@ -2,17 +2,85 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль пользователя</title>
+    <link rel="stylesheet" href="profile.css">
 </head>
 <body>
-    <div id="profile">
-      <p>Client ID: <span id="client_id"></span></p>
-      <p>Is Active: <span id="is_active"></span></p>
-      <p>Client Type: <span id="client_type"></span></p>
-      <p>Email: <span id="email"></span></p>
-      <p>User Type: <span id="user_type"></span></p>
-      <p>First Name: <span id="first_name"></span></p><button id="first"></button>
-      <p>Last Name: <span id="last_name"></span></p><button id="last"></button>
-      <p>Patronymic Name: <span id="patronymic_name"></span></p><button id="patr"></button>
+    <div class="profile-card" id="profile">
+        <h2>Профиль пользователя</h2>
+        
+        <div class="profile-header">
+            <div class="avatar-placeholder">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+            </div>
+            <span class="user-badge" id="user_type">User</span>
+        </div>
+
+        <div class="profile-info">
+            <div class="info-item">
+                <div class="info-content">
+                    <span class="info-label">Client ID</span>
+                    <span class="info-value" id="client_id"></span>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-content">
+                    <span class="info-label">Email</span>
+                    <span class="info-value" id="email"></span>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-content">
+                    <span class="info-label">Тип клиента</span>
+                    <span class="info-value" id="client_type"></span>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-content">
+                    <span class="info-label">Статус</span>
+                    <span class="info-value status-tag" id="is_active"></span>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-content">
+                    <span class="info-label">Имя</span>
+                    <span class="info-value" id="first_name"></span>
+                </div>
+                <button class="edit-btn" id="first" type="button">
+                    <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                    Изм.
+                </button>
+            </div>
+
+            <div class="info-item">
+                <div class="info-content">
+                    <span class="info-label">Фамилия</span>
+                    <span class="info-value" id="last_name"></span>
+                </div>
+                <button class="edit-btn" id="last" type="button">
+                    <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                    Изм.
+                </button>
+            </div>
+
+            <div class="info-item">
+                <div class="info-content">
+                    <span class="info-label">Отчество</span>
+                    <span class="info-value" id="patronymic_name"></span>
+                </div>
+                <button class="edit-btn" id="patr" type="button">
+                    <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                    Изм.
+                </button>
+            </div>
+        </div>
     </div>
 
     <script type="module" src="profile.js"></script>

@@ -1,0 +1,197 @@
+/* ===== 1. Сброс и центрирование ===== */
+* {
+    box-sizing: border-box !important;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: 'Moscow Sans', 'Segoe UI', system-ui, sans-serif;
+    color: #E8ECF5;
+    background: #14102A;
+}
+
+/* ===== 2. Имитация карточки-контейнера вокруг элементов ===== */
+/* Обертка для всех элементов на странице */
+body {
+    position: relative;
+}
+
+    body::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        max-width: 440px;
+        height: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #1E1838;
+        border: 1px solid rgba(159, 197, 232, 0.15);
+        border-radius: 18px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+        z-index: -1;
+        padding: 240px 0; /* Создает фон карточки */
+    }
+
+    /* Ограничиваем ширину всех элементов в body */
+    body > h2,
+    body > #err,
+    body > div,
+    body > button#send {
+        width: 100%;
+        max-width: 368px; /* Ширина контента внутри карточки 440 - padding */
+    }
+
+/* ===== 3. Заголовок ===== */
+h2 {
+    margin-bottom: 24px;
+    font-size: 26px;
+    font-weight: 600;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+    h2::after {
+        content: '';
+        display: block;
+        width: 40px;
+        height: 2px;
+        margin: 12px auto 0;
+        background: #3F6FD1;
+        border-radius: 2px;
+    }
+
+/* ===== 4. Ошибки ===== */
+#err {
+    margin-bottom: 14px;
+    font-size: 13px;
+    color: #C25A6B;
+    text-align: center;
+}
+
+    #err:empty {
+        display: none;
+    }
+
+/* ===== 5. Блоки полей и Label ===== */
+body > div {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    width: 100%;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #9FC5E8;
+}
+
+/* ===== 6. Инпуты (Email) ===== */
+input[type="text"],
+input[type="password"] {
+    width: 100% !important;
+    height: 46px;
+    padding: 0 16px;
+    font-size: 15px;
+    font-family: inherit;
+    color: #FFFFFF;
+    background: #252045;
+    border: 1px solid rgba(159, 197, 232, 0.2);
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+input:hover {
+    border-color: rgba(159, 197, 232, 0.35);
+    background: #2A2450;
+}
+
+input:focus {
+    border-color: #3F6FD1;
+    background: #2A2450;
+    box-shadow: 0 0 0 3px rgba(63, 111, 209, 0.2);
+}
+
+/* ===== 7. Строка пароля с кнопкой глаза ===== */
+/* Находим div с паролем */
+body > div:has(#pass) {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+}
+
+    body > div:has(#pass) label {
+        width: 100% !important;
+    }
+
+    body > div:has(#pass) input#pass {
+        width: calc(100% - 56px) !important;
+        flex: 0 0 auto !important;
+    }
+
+/* ===== 8. Кнопка показа пароля ===== */
+#show-pass {
+    width: 46px !important;
+    height: 46px !important;
+    margin-left: 10px !important;
+    flex: 0 0 46px !important;
+    display: grid !important;
+    place-items: center !important;
+    cursor: pointer;
+    background: #252045;
+    border: 1px solid rgba(159, 197, 232, 0.2);
+    border-radius: 10px;
+    color: transparent !important;
+    font-size: 0 !important;
+    user-select: none;
+}
+
+    #show-pass::before {
+        content: '';
+        width: 20px;
+        height: 20px;
+        background-color: #9FC5E8;
+        -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>") center/contain no-repeat;
+        mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>") center/contain no-repeat;
+    }
+
+    #show-pass[data-shown="true"]::before {
+        -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24'/><line x1='1' y1='1' x2='23' y2='23'/></svg>");
+        mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24'/><line x1='1' y1='1' x2='23' y2='23'/></svg>");
+    }
+
+    #show-pass:hover::before {
+        background-color: #FFFFFF;
+    }
+
+/* ===== 9. Кнопка «Отправить» ===== */
+#send {
+    height: 48px;
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    color: #FFFFFF;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    background: #3F6FD1;
+    transition: background 0.2s, transform 0.1s;
+}
+
+    #send:hover {
+        background: #3560B8;
+    }
+
+    #send:active {
+        transform: scale(0.98);
+    }

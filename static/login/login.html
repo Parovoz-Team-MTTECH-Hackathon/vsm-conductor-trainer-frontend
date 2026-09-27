@@ -2,20 +2,30 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
-    <h2>Авторизация</h2>
-    <div id="err"></div>
-    <div>
-      <label for="email">Email:</label>
-      <input type="text" id="email" name="email" />
-    </div>
-    <div>
-      <label for="password">Пароль:</label>
-      <input type="password" id="pass" name="password" required />
-      <button id="show-pass">Показать</button>
-    </div>
-    <button type="button" id="send" class="toggle-btn">Отправить</button>
+    <form onsubmit="return false;">
+        <h2>Авторизация</h2>
+        <div id="err"></div>
+
+        <div class="field-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="example@domain.com" required />
+        </div>
+
+        <div class="field-group password-row">
+            <div>
+                <label for="pass">Пароль</label>
+                <input type="password" id="pass" name="password" required />
+            </div>
+            <button type="button" id="show-pass" class="toggle-btn" aria-label="Показать пароль"></button>
+        </div>
+
+        <button type="button" id="send" class="submit-btn">Отправить</button>
+    </form>
 
     <script type="module" src="login.js"></script>
 
@@ -29,7 +39,6 @@
             input.type = isShown ? 'text' : 'password';
             btn.dataset.shown = isShown;
         });
-
     </script>
 </body>
 </html>
