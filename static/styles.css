@@ -15,7 +15,14 @@
 
 body {
     font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+
     background-color: var(--bg);
+    background-image: url("src/img/poezdnea.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
     color: var(--text);
     display: flex;
     justify-content: center;
