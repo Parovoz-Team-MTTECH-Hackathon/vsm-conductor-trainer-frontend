@@ -1,4 +1,5 @@
-import { request } from "../src/js/protocol.js";
+import { request, refreshToken } from "../src/js/protocol.js";
+
 
 LiteGraph.registered_node_types = {};
 
@@ -10,7 +11,6 @@ var canvas = new LGraphCanvas("#editor-canvas", graph);
 
 
 let scenario_id = -1;
-let scenario_name = "";
 let scenario_label = "";
 let scenario_description = "";
 
@@ -931,12 +931,6 @@ canvas.getMenuOptions = function () {
         },
 
         {
-            content: "SET SCENARIO NAME",
-            callback: () => {
-                scenario_name = prompt("Scenario Name", "")
-            }
-        },
-        {
             content: "SET SCENARIO LABEL",
             callback: () => {
                 scenario_label = prompt("Scenario Label", "")
@@ -988,11 +982,15 @@ window.addEventListener("resize", resizeCanvas);
 
 
 function saveProjectJSON() {
-    return JSON.stringify(graph.serialize());
+    return graph.serialize();
 }
 
 function loadProjectJSON(json) {
-
+    if (json == NaN || json == {} || json == null || json == "" || Object.keys(json).length == 0){
+        graph.clear();
+        return false;
+    }
+ 
     const data =
         typeof json === "string"
             ? JSON.parse(json)
@@ -1022,27 +1020,15 @@ function loadProjectJSON(json) {
     }
 
     canvas.setDirty(true, true);
-
     return true;
 }
 
 
 function compileJSON(options = {}) {
 
-    /*
-     * options:
-     *
-     * {
-     *     name: "scenario_name",
-     *     label: "Scenario label",
-     *     description: "Scenario description",
-     *     icon: "base64..."
-     * }
-     *
-     */
 
     const {
-        name = "",
+        scenario_id = -1,
         label = "",
         description = "",
         icon = null,
@@ -1312,7 +1298,7 @@ function compileJSON(options = {}) {
     // ========================================================
 
     const result = {
-        name,
+        scenario_id,
         label,
         description,
         icon,
@@ -1898,7 +1884,7 @@ function compileJSON(options = {}) {
 }
 
 
-async function fullCompileJSON(name, label, description) {
+async function fullCompileJSON(scenario_id, label, description) {
     const input = document.createElement("input");
 
     input.type = "file";
@@ -1920,7 +1906,7 @@ async function fullCompileJSON(name, label, description) {
             reader.onload = () => {
                 try {
                     const result = compileJSON({
-                        name: name,
+                        scenario_id: scenario_id,
                         label: label,
                         description: description,
                         icon: reader.result
@@ -1961,65 +1947,26 @@ function load() {
     return; // ← важно: без этого код пойдёт дальше с NaN
   }
 
-  var scenario_id = Number(scenario_id_str); // ← было scenario_id, стало scenario_id_str
+  scenario_id = Number(scenario_id_str); // 
+  request('/scenario/get?scenario_id=' + scenario_id, {}, 'GET').then(data => {
+    scenario_label = data["label"];
+    scenario_description = data["description"];
+    alert("Сценарий: " + scenario_label  + "(" + scenario_id + ")" + " Описание: " + scenario_description);
+    
+  }).catch(error => {alert(error)});
 
-  var json = request('/scenario/project?scenario_id=' + scenario_id, {}, 'GET');
-  loadProjectJSON(json);
+  request('/scenario/project?scenario_id=' + scenario_id, {}, 'GET').then(data => {loadProjectJSON(data)}).catch(error => {alert(error)});
+
 }
-//     fetch('/scenario/project?scenario_id='+scenario_id, {
-//         method: 'GET',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//     })
-//     .then(response => {
-//         if (response.status != 200){
-//             alert("HTTP Error: " + response.status)
-//         }
-//         return response.json();
-//     })
-//     .then(data => {
-//         loadProjectJSON(data);
-//     })
-//     .catch(error => {
-//         alert('Error: ' + error);
-//     });
-// }
+
 
 function upload() {
-  console.log("Uploading scenario to server...")
-  let data = fullCompileJSON(scenario_name, scenario_label, scenario_description).then(data => {
-    console.log("DATA: " + JSON.stringify(data));
-    console.log("DATA1: " + JSON.stringify( {
-      scenario_project_json: saveProjectJSON(),
-      scenario_compiled_json: data
-    }));
+  let data = fullCompileJSON(scenario_id, scenario_label, scenario_description).then(data => {
     var json = request('/scenario/upload?scenario_id=' + scenario_id, {
       scenario_project_json: saveProjectJSON(),
       scenario_compiled_json: data
-    }, 'POST');
+    }, 'POST').catch(error => {alert(error)});
   });
-
-    //     fetch('/scenario/project?scenario_id='+scenario_id, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: data
-    //     })
-    //     .then(response => {
-    //         if (response.status != 200){
-    //             alert("HTTP Error: " + response.status)
-    //         }
-    //         return response.json();
-    //     })
-    //     .then(data => {
-    //     })
-    //     .catch(error => {
-    //         alert('Error: ' + error);
-    //     });
-    // });
-
 }
-
+await refreshToken();
 load()
