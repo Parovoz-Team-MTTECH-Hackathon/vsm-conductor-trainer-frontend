@@ -2,71 +2,55 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Игра | ВСМ Тренажёр</title>
 
-    <link
-        rel="stylesheet"
-        href="/static/engine/engine.css"
-    >
+    <link rel="stylesheet" href="/static/engine/engine.css">
 </head>
 
 <body>
 
 <div id="app">
 
-    <div id="imageBox">
+    <div id="game">
 
-        <img
-            id="image"
-            src=""
-            alt=""
-        >
+        <div id="imageBox">
+            <img id="image" src="/static/engine/loading.gif">
 
-        <button id="menu">
-            O
-        </button>
+            <button id="menu">O</button>
+        </div>
 
-    </div>
+        <main id="content"></main>
 
-    <main id="content"></main>
+        <div id="progress" hidden>
+            <progress value="50" max="100" id="timer"></progress>
+        </div>
 
-    <div id="progress" hidden>
-        <div id="bar"></div>
     </div>
 
 </div>
 
-
 <aside id="panel">
 
-    <button id="close">
-        X
-    </button>
+    <button id="close">X</button>
 
     <div id="panelContent">
-
         <h1>МОБИЛЬНЫЙ ТЕРМИНАЛ СБОРА ДАННЫХ</h1>
-
         <hr>
-
-        <p>
-            Дополнительная информация.
-        </p>
-
+        <h2>Лояльность пассажиров:</h2>
+        <progress value="50" max="100" id="loyalty"></progress>
+        <hr>
+        <h2>Рейтинг безопасности:</h2>
+        <progress value="50" max="100" id="safety"></progress>
+        <hr>
+        <h2>Уведомления:</h2>
+        <p>Нет новых уведомлений...</p>
     </div>
 
 </aside>
 
-
-<script
-    type="module"
-    src="/static/engine/engine.js"
-></script>
+<script type="module" src="/static/engine/engine.js"></script>
 
 </body>
 </html>
