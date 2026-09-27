@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Публичный профиль игрока</title>
+</head>
+<body>
+  <h1>Публичный профиль игрока</h1>
+
+  <div id="status" class="loading">Загрузка…</div>
+
+  <div id="content" class="card" hidden>
+    <div class="row"><span class="label">Client ID:</span> <span class="value" id="client_id"></span></div>
+    <div class="row"><span class="label">Активен:</span> <span class="value" id="is_active"></span></div>
+    <div class="row"><span class="label">Тип клиента:</span> <span class="value" id="client_type"></span></div>
+    <div class="row"><span class="label">Тип пользователя:</span> <span class="value" id="user_type"></span></div>
+    <div class="row"><span class="label">Имя:</span> <span class="value" id="shortened_name"></span></div>
+  </div>
+
+  <script type="module" src="public-profile.js"></script>
+</body>
+</html>
