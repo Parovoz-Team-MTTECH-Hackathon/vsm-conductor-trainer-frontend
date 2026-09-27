@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ВСМ Тренажёр</title>
+  <style>
+    /* ===== Базовый сброс и настройки ===== */
+    * {
+        box-sizing: border-box !important;
+        margin: 0;
+        padding: 0;
+    }
+
+    html, body {
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        font-family: 'Moscow Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        color: #E8ECF5;
+        background-color: #14102A;
+    }
+
+    /* ===== Верхняя панель (Navbar) ===== */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        padding: 0 32px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 10;
+        background: linear-gradient(180deg, rgba(20, 16, 42, 0.9) 0%, rgba(20, 16, 42, 0) 100%);
+    }
+
+    .logo {
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        color: #FFFFFF;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    }
+
+    .nav-buttons {
+        display: flex;
+        gap: 12px;
+    }
+
+    /* ===== Главный экран с фоном ===== */
+    .hero {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: url('poezdnea.jpg') center/cover no-repeat #14102A;
+    }
+
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at center, rgba(20, 16, 42, 0.4) 0%, rgba(20, 16, 42, 0.85) 100%);
+        z-index: 1;
+    }
+
+    /* ===== Контент по центру ===== */
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        max-width: 700px;
+        padding: 0 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .title {
+        font-size: 44px;
+        font-weight: 700;
+        color: #FFFFFF;
+        margin-bottom: 12px;
+        line-height: 1.2;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    }
+
+    .subtitle {
+        font-size: 18px;
+        color: #9FC5E8;
+        margin-bottom: 36px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+    }
+
+    /* ===== Кнопки ===== */
+    .btn {
+        font-family: inherit;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        outline: none;
+    }
+
+    .btn-secondary {
+        padding: 10px 22px;
+        font-size: 14px;
+        background: rgba(37, 32, 69, 0.85);
+        color: #9FC5E8;
+        border: 1px solid rgba(159, 197, 232, 0.3);
+    }
+
+    .btn-secondary:hover {
+        background: rgba(42, 36, 80, 1);
+        color: #FFFFFF;
+        border-color: rgba(159, 197, 232, 0.6);
+    }
+
+    .btn-primary {
+        padding: 10px 22px;
+        font-size: 14px;
+        background: #3F6FD1;
+        color: #FFFFFF;
+    }
+
+    .btn-primary:hover {
+        background: #3560B8;
+        box-shadow: 0 4px 15px rgba(63, 111, 209, 0.4);
+    }
+
+    .btn-play {
+        padding: 18px 60px;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: #FFFFFF;
+        background: linear-gradient(135deg, #3F6FD1 0%, #2A52A4 100%);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 14px;
+        box-shadow: 0 8px 30px rgba(63, 111, 209, 0.5);
+    }
+
+    .btn-play:hover {
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 12px 40px rgba(63, 111, 209, 0.7);
+        background: linear-gradient(135deg, #4A7BE4 0%, #315CB8 100%);
+    }
+
+    .btn-play:active {
+        transform: translateY(1px) scale(0.98);
+    }
+
+    @media (max-width: 600px) {
+        .title { font-size: 30px; }
+        .subtitle { font-size: 15px; }
+        .btn-play { padding: 14px 40px; font-size: 18px; }
+        .navbar { padding: 0 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Верхняя шапка -->
+  <header class="navbar">
+    <div class="logo">ВСМ ТРЕНАЖЁР</div>
+
+    <!-- Кнопки для гостей (неавторизованных) -->
+    <div id="guest-nav" class="nav-buttons">
+      <a href="login/login.html" class="btn btn-secondary">Вход</a>
+      <a href="sign-up/sign-up.html" class="btn btn-primary">Регистрация</a>
+    </div>
+
+    <!-- Кнопки для авторизованных пользователей (скрыты по умолчанию) -->
+    <div id="user-nav" class="nav-buttons" style="display: none;">
+      <a href="profile.html" class="btn btn-primary">Профиль</a>
+      <button id="logout-btn" class="btn btn-secondary">Выйти</button>
+    </div>
+  </header>
+
+  <!-- Главный экран -->
+  <main class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="title">Симулятор скоростного поезда</h1>
+      <p class="subtitle">Освойте управление современным экспрессом прямо в браузере</p>
+      <a href="players.html" class="btn btn-play">ИГРАТЬ</a>
+    </div>
+  </main>
+
+  <!-- Логика переключения состояния входа -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const guestNav = document.getElementById('guest-nav');
+      const userNav = document.getElementById('user-nav');
+      const logoutBtn = document.getElementById('logout-btn');
+
+      // Проверка авторизации через токен в localStorage
+      const token = localStorage.getItem('token') || localStorage.getItem('access_token');
+
+      if (token) {
+        // Если авторизован: скрываем Вход/Регистрацию, показываем Профиль/Выйти
+        guestNav.style.display = 'none';
+        userNav.style.display = 'flex';
+      } else {
+        // Если не авторизован: показываем Вход/Регистрацию
+        guestNav.style.display = 'flex';
+        userNav.style.display = 'none';
+      }
+
+      // Выход из аккаунта
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+          localStorage.removeItem('token');
+          localStorage.removeItem('access_token');
+          window.location.reload();
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>
