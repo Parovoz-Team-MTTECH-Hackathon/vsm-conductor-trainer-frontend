@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Игроки</title>
+</head>
+<body>
+  <h1>Список игроков</h1>
+
+  <div id="status" class="loading">Загрузка…</div>
+
+  <table id="players-table" hidden>
+      <thead>
+        <tr>
+          <th>Стата</th>
+          <th>Кик</th>
+          <th>Client ID</th>
+          <th>Активен</th>
+          <th>Тип клиента</th>
+          <th>Email</th>
+          <th>Тип пользователя</th>
+          <th>Имя</th>
+          <th>Фамилия</th>
+          <th>Отчество</th>
+        </tr>
+      </thead>
+    <tbody id="players-body"></tbody>
+  </table>
+
+  <script type="module" src="players.js"></script>
+</body>
+</html>

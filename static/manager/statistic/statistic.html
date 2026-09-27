@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Статистика игрока</title>
+</head>
+<body>
+  <a class="back" href="players.html">← Назад к списку игроков</a>
+  <h1>Статистика игрока</h1>
+
+  <div id="status" class="loading">Загрузка…</div>
+
+  <div id="content" hidden>
+    <div class="card">
+      <div class="row"><span class="label">Player ID:</span><span class="value" id="player_id"></span></div>
+      <div class="row"><span class="label">Счёт:</span><span class="value" id="score"></span></div>
+      <div class="row">
+        <span class="label">Пройдено сценариев:</span>
+        <span class="value" id="completed-count"></span>
+      </div>
+      <div id="completed-wrap" class="scenarios"></div>
+    </div>
+
+    <h2>Достижения</h2>
+    <div id="achievements-wrap">
+      <table id="achievements-table" hidden>
+        <thead>
+          <tr>
+            <th>Иконка</th>
+            <th>Scenario ID</th>
+            <th>Название</th>
+            <th>Label</th>
+            <th>Описание</th>
+            <th>Δ Счёта</th>
+          </tr>
+        </thead>
+        <tbody id="achievements-body"></tbody>
+      </table>
+      <div id="achievements-empty" class="empty" hidden>Достижений нет</div>
+    </div>
+  </div>
+
+  <script type="module" src="statistic.js"></script>
+</body>
+</html>
