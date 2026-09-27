@@ -27,7 +27,7 @@ async function loadPublicProfile(playerId) {
     document.getElementById('client_id').textContent = data.client_id ?? '';
     document.getElementById('client_type').textContent = data.client_type ?? '';
     document.getElementById('user_type').textContent = data.user_type ?? '';
-    document.getElementById('shortened_name').textContent = data.shortened_name ?? '';
+    document.getElementById('shorted_name').textContent = data.shorted_name ?? '';
 
     const active = data.is_active === true;
     const activeEl = document.getElementById('is_active');

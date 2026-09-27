@@ -32,7 +32,6 @@ async function loadPlayers() {
       const tr = document.createElement('tr');
 
       tr.appendChild(actionsCell(p, tr));
-      tr.appendChild(statCell(p));
       tr.appendChild(cell(p.client_id ?? ''));
       tr.appendChild(statusCell(p.is_active));
       tr.appendChild(cell(p.client_type ?? ''));
@@ -70,18 +69,6 @@ function statusCell(isActive) {
   const active = isActive === true;
   td.textContent = active ? 'Да' : 'Нет';
   td.className = active ? 'status-active' : 'status-inactive';
-  return td;
-}
-
-function statCell(player) {
-  const td = document.createElement('td');
-  const btn = document.createElement('button');
-  btn.className = 'stat-btn';
-  btn.textContent = 'Стата';
-  btn.addEventListener('click', () => {
-    window.location.href = `statistic.html?player_id=${encodeURIComponent(player.client_id)}`;
-  });
-  td.appendChild(btn);
   return td;
 }
 
