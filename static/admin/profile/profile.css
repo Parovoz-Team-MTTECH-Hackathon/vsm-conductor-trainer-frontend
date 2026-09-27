@@ -1,0 +1,545 @@
+/* --- Подключение шрифтов --- */
+@font-face {
+    font-family: 'MoscowSans';
+    src: url('/static/src/fonts/moscowsansregular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MoscowSans';
+    src: url('/static/src/fonts/MoscowSansExtraBold.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+/* --- Переменные (единая палитра) --- */
+:root {
+    --bg-color: #1a1230;
+    --alt-bg: #3f6fd1;
+    --text-color: #ffffff;
+    --danger: #e05252;
+    --success: #4ade80;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --card-bg-alt: rgba(255, 255, 255, 0.08);
+    --border-color: rgba(255, 255, 255, 0.12);
+    --radius: 12px;
+    --transition: 0.3s ease;
+}
+
+/* --- Сброс и база --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'MoscowSans', sans-serif;
+    font-weight: 400;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    line-height: 1.5;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+/* --- Контейнер --- */
+.admin-container {
+    width: 100%;
+    max-width: 960px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* --- Кнопка Назад --- */
+.back-btn {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    opacity: 0.7;
+    font-family: 'MoscowSans', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    align-self: flex-start;
+    padding: 5px 0;
+    transition: opacity var(--transition);
+}
+
+.back-btn:hover {
+    opacity: 1;
+}
+
+/* --- Заголовок --- */
+.page-title {
+    font-weight: 800;
+    font-size: 28px;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+/* --- Карточка профиля --- */
+.profile-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border-color);
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.profile-row:last-child {
+    border-bottom: none;
+}
+
+/* --- Лейблы и значения --- */
+.label {
+    font-size: 14px;
+    opacity: 0.6;
+    white-space: nowrap;
+}
+
+.value {
+    font-weight: 800;
+    font-size: 15px;
+    text-align: right;
+    word-break: break-word;
+}
+
+/* --- Панели --- */
+.panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.panel-title {
+    font-weight: 800;
+    font-size: 20px;
+}
+
+.panel-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* --- Кнопки --- */
+.btn {
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 8px 14px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'MoscowSans', sans-serif;
+    color: var(--text-color);
+    background: var(--alt-bg);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+    transition: filter var(--transition), background var(--transition), transform 0.1s;
+}
+
+.btn:hover {
+    filter: brightness(1.1);
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn:disabled {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.4);
+    cursor: not-allowed;
+    filter: none;
+}
+
+/* --- Варианты кнопок --- */
+.btn-primary {
+    background: var(--success);
+    color: #0a2a15;
+    font-weight: 800;
+}
+
+.btn-primary:hover {
+    filter: brightness(1.05);
+}
+
+.btn-secondary {
+    background: var(--card-bg-alt);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+.btn-secondary:hover {
+    background: rgba(63, 111, 209, 0.25);
+    border-color: var(--alt-bg);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+.btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--alt-bg);
+}
+
+/* --- Сетка сценариев --- */
+.scenario-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+}
+
+/* --- Карточка сценария --- */
+/* JS создаёт класс scenario-btn, поэтому стилизуем оба варианта */
+.scenario-card,
+.scenario-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 14px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+    color: var(--text-color);
+    transition: all var(--transition);
+    min-height: 64px;
+    width: 100%;
+    font-family: 'MoscowSans', sans-serif;
+}
+
+.scenario-card:hover,
+.scenario-btn:hover {
+    background: rgba(63, 111, 209, 0.18);
+    border-color: var(--alt-bg);
+    transform: translateY(-1px);
+}
+
+.scenario-card:active,
+.scenario-btn:active {
+    transform: scale(0.98);
+}
+
+.scenario-card:focus-visible,
+.scenario-btn:focus-visible {
+    outline: 2px solid var(--alt-bg);
+    outline-offset: 2px;
+}
+
+/* --- Иконка --- */
+/* JS делает <img class="icon"> напрямую, а не обёртку.
+   Поэтому стилизуем .icon как сам img. */
+.scenario-card .icon,
+.scenario-btn .icon {
+    font-size: 24px;
+    line-height: 1;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(63, 111, 209, 0.25);
+    border-radius: 8px;
+    overflow: hidden;
+    object-fit: contain;
+    padding: 4px;
+}
+
+/* На случай если внутри .icon окажется вложенный <img> — тоже поддержим */
+.scenario-card .icon img,
+.scenario-btn .icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 4px;
+}
+
+/* --- Мета --- */
+.scenario-card .meta,
+.scenario-btn .meta {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.scenario-card .title,
+.scenario-btn .title {
+    font-weight: 800;
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.scenario-card .desc,
+.scenario-btn .desc {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.scenario-card .sid,
+.scenario-btn .sid {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 11px;
+    font-family: ui-monospace, monospace;
+    margin-top: 2px;
+}
+
+/* --- Состояния списка --- */
+.empty,
+.error {
+    grid-column: 1 / -1;
+    padding: 12px 0;
+    font-size: 14px;
+}
+
+.empty {
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+}
+
+.error {
+    color: var(--danger);
+}
+
+.error-banner {
+    background: rgba(224, 82, 82, 0.15);
+    border: 1px solid rgba(224, 82, 82, 0.5);
+    color: var(--danger);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+}
+
+/* --- Адаптив для планшетов и телефонов --- */
+@media (max-width: 768px) {
+    body {
+        padding: 14px;
+    }
+
+    .page-title {
+        font-size: 24px;
+    }
+
+    .panel-title {
+        font-size: 18px;
+    }
+
+    .scenario-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .panel-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .panel-actions {
+        width: 100%;
+    }
+
+    .panel-actions .btn {
+        flex: 1 1 auto;
+    }
+
+    .profile-row {
+        padding: 10px 14px;
+    }
+}
+
+@media (max-width: 360px) {
+    .page-title {
+        font-size: 20px;
+    }
+
+    .panel-actions {
+        flex-direction: column;
+    }
+
+    .panel-actions .btn {
+        width: 100%;
+    }
+
+    .scenario-card,
+    .scenario-btn {
+        padding: 10px;
+    }
+
+    .scenario-card .icon,
+    .scenario-btn .icon {
+        width: 32px;
+        height: 32px;
+        flex: 0 0 32px;
+    }
+}
+/* ============================================================
+   ФИКС КАРТОЧЕК СЦЕНАРИЕВ (перебивает любые дефолтные стили button)
+   ============================================================ */
+
+.scenario-list .scenario-btn,
+.scenario-list .scenario-card {
+    /* Сброс дефолтного button */
+    appearance: none;
+    -webkit-appearance: none;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    color: #ffffff !important;
+    font-family: 'MoscowSans', sans-serif !important;
+    font-size: 14px !important;
+    text-align: left;
+    cursor: pointer;
+    padding: 14px;
+    border-radius: 12px;
+    min-height: 64px;
+    width: 100%;
+    box-sizing: border-box;
+
+    /* Flex-раскладка */
+    display: flex !important;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
+
+    transition: background 0.2s, border-color 0.2s, transform 0.1s;
+    box-shadow: none;
+    outline: none;
+}
+
+.scenario-list .scenario-btn:hover,
+.scenario-list .scenario-card:hover {
+    background: rgba(63, 111, 209, 0.18) !important;
+    border-color: #3f6fd1 !important;
+}
+
+.scenario-list .scenario-btn:active,
+.scenario-list .scenario-card:active {
+    transform: scale(0.98);
+}
+
+/* Иконка — сам <img class="icon"> */
+.scenario-list .scenario-btn > .icon,
+.scenario-list .scenario-card > .icon {
+    display: block;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    border-radius: 8px;
+    background: rgba(63, 111, 209, 0.25);
+    object-fit: contain;
+    padding: 4px;
+    box-sizing: border-box;
+}
+
+/* Если src пустой — фон остаётся, иконка не мешает */
+.scenario-list .scenario-btn > .icon:not([src]),
+.scenario-list .scenario-btn > .icon[src=""],
+.scenario-list .scenario-card > .icon:not([src]),
+.scenario-list .scenario-card > .icon[src=""] {
+    background: rgba(63, 111, 209, 0.25);
+}
+
+/* Мета-блок */
+.scenario-list .scenario-btn > .meta,
+.scenario-list .scenario-card > .meta {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+    flex: 1 1 auto;
+    text-align: left;
+    color: #ffffff;
+}
+
+/* Заголовок */
+.scenario-list .scenario-btn .title,
+.scenario-list .scenario-card .title {
+    font-weight: 800;
+    font-size: 15px;
+    color: #ffffff !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+/* Описание */
+.scenario-list .scenario-btn .desc,
+.scenario-list .scenario-card .desc {
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+/* ID сценария */
+.scenario-list .scenario-btn .sid,
+.scenario-list .scenario-card .sid {
+    color: rgba(255, 255, 255, 0.4) !important;
+    font-size: 11px;
+    font-family: ui-monospace, monospace;
+    margin-top: 2px;
+    display: block;
+}
+
+/* Пустое состояние и ошибка */
+.scenario-list .empty,
+.scenario-list .error {
+    grid-column: 1 / -1;
+    padding: 12px 0;
+    font-size: 14px;
+}
+
+.scenario-list .empty {
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+}
+
+.scenario-list .error {
+    color: #e05252;
+}

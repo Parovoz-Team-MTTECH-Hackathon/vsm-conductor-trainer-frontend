@@ -4,41 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Авторизация</title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" type="text/css" href="login.css">
 </head>
 <body>
-    <form onsubmit="return false;">
-        <h2>Авторизация</h2>
-        <div id="err"></div>
+    <div class="auth-container">
+        <form class="auth-form" id="login-form">
+            <!-- Кнопка назад -->
+            <button type="button" class="back-btn" onclick="history.back()">← Назад</button>
 
-        <div class="field-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="example@domain.com" required />
-        </div>
+            <h2 class="form-title">Авторизация</h2>
 
-        <div class="field-group password-row">
-            <div>
-                <label for="pass">Пароль</label>
-                <input type="password" id="pass" name="password" required />
+            <!-- Блок ошибок -->
+            <div id="err" class="error-box"></div>
+
+            <!-- Email -->
+            <div class="field-group">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" required placeholder="name@example.com" />
             </div>
-            <button type="button" id="show-pass" class="toggle-btn" aria-label="Показать пароль"></button>
-        </div>
 
-        <button type="button" id="send" class="submit-btn">Отправить</button>
-    </form>
+            <!-- Пароль -->
+            <div class="field-group password-row">
+                <div class="input-wrapper">
+                    <label for="pass">Пароль</label>
+                    <input type="password" id="pass" name="password" required placeholder="••••••••" />
+                </div>
+                <button type="button" id="show-pass" class="toggle-btn eye-btn" aria-label="Показать пароль"></button>
+            </div>
+
+            <!-- Кнопка отправки -->
+            <button type="button" id="send" class="submit-btn">Войти</button>
+        </form>
+    </div>
 
     <script type="module" src="login.js"></script>
 
     <script>
-        const input = document.getElementById('pass');
-        const btn = document.getElementById('show-pass');
-        let isShown = false;
+        function togglePassword(inputId, btnId) {
+            const input = document.getElementById(inputId);
+            const btn = document.getElementById(btnId);
+            if (!input || !btn) return;
 
-        btn.addEventListener('click', () => {
-            isShown = !isShown;
-            input.type = isShown ? 'text' : 'password';
-            btn.dataset.shown = isShown;
-        });
+            let isShown = false;
+
+            btn.addEventListener('click', () => {
+                isShown = !isShown;
+                input.type = isShown ? 'text' : 'password';
+                btn.classList.toggle('active', isShown);
+            });
+        }
+
+        togglePassword('pass', 'show-pass');
     </script>
 </body>
 </html>

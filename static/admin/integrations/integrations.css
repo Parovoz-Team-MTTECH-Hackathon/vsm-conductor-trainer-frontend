@@ -13,7 +13,7 @@
     font-style: normal;
 }
 
-/* --- Переменные (единая палитра) --- */
+/* --- Переменные --- */
 :root {
     --bg-color: #1a1230;
     --alt-bg: #3f6fd1;
@@ -46,10 +46,14 @@ body {
     line-height: 1.5;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 /* --- Контейнер --- */
-.players-container {
+.integrations-container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1100px;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -81,7 +85,7 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* --- Обертка таблицы (горизонтальный скролл на десктопе) --- */
+/* --- Обертка таблицы --- */
 .table-wrapper {
     overflow-x: auto;
     border-radius: var(--radius);
@@ -95,25 +99,20 @@ body {
     height: 6px;
 }
 
-.table-wrapper::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 3px;
-}
-
 .table-wrapper::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.2);
     border-radius: 3px;
 }
 
 /* --- Таблица --- */
-.players-table {
+.integrations-table {
     border-collapse: collapse;
     width: 100%;
-    min-width: 1000px; /* Чтобы на десктопе была горизонтальная прокрутка, если не влазит */
+    min-width: 850px;
 }
 
-.players-table th,
-.players-table td {
+.integrations-table th,
+.integrations-table td {
     border-bottom: 1px solid var(--border-color);
     padding: 12px 14px;
     text-align: left;
@@ -122,7 +121,7 @@ body {
     white-space: nowrap;
 }
 
-.players-table th {
+.integrations-table th {
     background: rgba(255, 255, 255, 0.05);
     font-weight: 800;
     font-size: 12px;
@@ -134,34 +133,53 @@ body {
     z-index: 1;
 }
 
-.players-table tbody tr {
+.integrations-table tbody tr {
     transition: background var(--transition);
 }
 
-.players-table tbody tr:nth-child(even) {
+.integrations-table tbody tr:nth-child(even) {
     background: rgba(255, 255, 255, 0.02);
 }
 
-.players-table tbody tr:hover {
+.integrations-table tbody tr:hover {
     background: rgba(63, 111, 209, 0.15);
 }
 
-.players-table tbody tr:last-child td {
+.integrations-table tbody tr:last-child td {
     border-bottom: none;
 }
 
-/* --- Колонка действий --- */
-.players-table td.actions {
+/* --- Внутренний блок действий (создаётся в JS) --- */
+/* Флекс — на внутренний div, а не на td, чтобы не ломать border-collapse */
+.integrations-table td .actions {
     display: flex;
-    gap: 6px;
+    gap: 8px;
     align-items: center;
+    flex-wrap: wrap;
 }
 
-/* --- Кнопки в таблице --- */
-.icon-btn {
-    border: 1px solid var(--border-color);
-    background: var(--card-bg-alt);
-    color: var(--text-color);
+/* --- Чекбокс --- */
+.actions input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--alt-bg);
+    flex-shrink: 0;
+}
+
+.toggle-label {
+    font-size: 12px;
+    opacity: 0.6;
+    user-select: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+/* --- Кнопка «Удалить» (класс del-btn из JS) --- */
+.del-btn {
+    border: 1px solid rgba(224, 82, 82, 0.4);
+    background: rgba(224, 82, 82, 0.1);
+    color: var(--danger);
     border-radius: 8px;
     padding: 6px 10px;
     cursor: pointer;
@@ -172,39 +190,85 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    text-decoration: none;
 }
 
-.icon-btn:hover {
+.del-btn:hover {
+    background: rgba(224, 82, 82, 0.25);
+    border-color: var(--danger);
+}
+
+.del-btn:active {
+    transform: scale(0.96);
+}
+
+.del-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* --- Копирование ключа --- */
+.key-cell {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    max-width: 320px;
+}
+
+.key-cell code {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: ui-monospace, monospace;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: middle;
+    color: rgba(255, 255, 255, 0.85);
+    border: 1px solid var(--border-color);
+}
+
+.copy-btn {
+    border: 1px solid var(--border-color);
+    background: var(--card-bg-alt);
+    color: var(--text-color);
+    border-radius: 8px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: 'MoscowSans', sans-serif;
+    transition: all var(--transition);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.copy-btn:hover {
     background: rgba(63, 111, 209, 0.3);
     border-color: var(--alt-bg);
 }
 
-.icon-btn:active {
+.copy-btn:active {
     transform: scale(0.96);
 }
 
-.icon-btn.danger {
-    color: var(--danger);
-    border-color: rgba(224, 82, 82, 0.4);
+.copy-btn.copied {
+    background: var(--success);
+    color: #0a2a15;
+    border-color: var(--success);
+    font-weight: 800;
 }
 
-.icon-btn.danger:hover {
-    background: rgba(224, 82, 82, 0.2);
-    border-color: var(--danger);
-}
-
-.icon-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
-/* --- Значения "Активен" --- */
+/* --- Статус активности (классы из JS) --- */
+.status-active,
 .value-active {
     color: var(--success);
     font-weight: 800;
 }
 
+.status-inactive,
 .value-inactive {
     color: var(--danger);
     font-weight: 800;
@@ -239,26 +303,35 @@ body {
     100% { opacity: 0.5; }
 }
 
-/* --- Адаптив для планшетов и телефонов --- */
-@media (max-width: 900px) {
-    .players-table {
+/* ============================================================
+   Адаптив: таблица → карточки
+   Порядок колонок (из JS):
+     1. Действия
+     2. ID клиента
+     3. Активен
+     4. Тип клиента
+     5. Имя
+     6. Ключ
+   ============================================================ */
+@media (max-width: 800px) {
+
+    .integrations-table {
         min-width: unset;
     }
 
-    /* Таблица → карточки */
-    .players-table thead {
+    .integrations-table thead {
         display: none;
     }
 
-    .players-table,
-    .players-table tbody,
-    .players-table tr,
-    .players-table td {
+    .integrations-table,
+    .integrations-table tbody,
+    .integrations-table tr,
+    .integrations-table td {
         display: block;
         width: 100%;
     }
 
-    .players-table tr {
+    .integrations-table tr {
         margin-bottom: 14px;
         border: 1px solid var(--border-color);
         border-radius: var(--radius);
@@ -267,11 +340,11 @@ body {
         overflow: hidden;
     }
 
-    .players-table tr:last-child {
+    .integrations-table tr:last-child {
         margin-bottom: 0;
     }
 
-    .players-table td {
+    .integrations-table td {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -282,7 +355,8 @@ body {
         gap: 12px;
     }
 
-    .players-table td::before {
+    /* Базовая подпись — если JS положит data-label */
+    .integrations-table td::before {
         content: attr(data-label);
         font-weight: 800;
         font-size: 11px;
@@ -290,18 +364,45 @@ body {
         text-transform: uppercase;
         letter-spacing: 0.5px;
         flex-shrink: 0;
+        text-align: left;
     }
 
-    .players-table td.actions {
+    /* Fallback через nth-child — работает без JS */
+    .integrations-table td:nth-child(1)::before { content: "Действия"; }
+    .integrations-table td:nth-child(2)::before { content: "ID клиента"; }
+    .integrations-table td:nth-child(3)::before { content: "Активен"; }
+    .integrations-table td:nth-child(4)::before { content: "Тип клиента"; }
+    .integrations-table td:nth-child(5)::before { content: "Имя"; }
+    .integrations-table td:nth-child(6)::before { content: "Ключ"; }
+
+    /* Первая ячейка — действия: без подписи, кнопки справа */
+    .integrations-table td.actions {
         justify-content: flex-end;
         flex-wrap: wrap;
         padding-top: 12px;
-        border-top: 1px solid var(--border-color);
-        margin-top: 6px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 6px;
     }
 
-    .players-table td.actions::before {
+    .integrations-table td.actions::before {
         display: none;
+    }
+
+    .integrations-table td .actions {
+        justify-content: flex-end;
+        width: 100%;
+    }
+
+    /* Ключ на мобильном — растягиваем */
+    .integrations-table td .key-cell {
+        max-width: 100%;
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .integrations-table td .key-cell code {
+        max-width: 140px;
     }
 
     .table-wrapper {
@@ -326,12 +427,13 @@ body {
         font-size: 20px;
     }
 
-    .icon-btn {
+    .del-btn,
+    .copy-btn {
         padding: 6px 8px;
         font-size: 12px;
     }
 
-    .players-table td {
+    .integrations-table td {
         padding: 6px 12px;
     }
 }

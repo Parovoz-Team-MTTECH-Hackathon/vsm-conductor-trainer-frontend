@@ -2,25 +2,65 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Профиль</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль менеджера</title>
+    <link rel="stylesheet" type="text/css" href="profile.css">
 </head>
 <body>
-    <div id="profile">
-      <p>Client ID: <span id="client_id"></span></p>
-      <p>Is Active: <span id="is_active"></span></p>
-      <p>Client Type: <span id="client_type"></span></p>
-      <p>Email: <span id="email"></span></p>
-      <p>User Type: <span id="user_type"></span></p>
-      <p>Name: <span id="name"></span> <button id="edit-name"></button></p>
-    </div>
 
-    <div class="invite">
-      <h2>Пригласительная ссылка для игроков</h2>
-      <div class="invite-row">
-        <div class="invite-link" id="invite-link">—</div>
-        <button id="copy-invite" class="btn" disabled>Копировать</button>
-      </div>
-      <div class="hint">Отправьте эту ссылку игроку — он попадёт на страницу регистрации по вашему ID.</div>
+    <div class="manager-container">
+
+        <!-- ===== Навигация ===== -->
+        <div class="nav-row">
+            <a href="../players/players.html" class="back-btn">← К игрокам</a>
+            <a href="/static/index.html" class="logout-btn">Выйти</a>
+        </div>
+
+        <h1 class="page-title">Профиль менеджера</h1>
+
+        <!-- ===== Профиль ===== -->
+        <div id="profile" class="profile-card">
+            <div class="profile-row">
+                <span class="label">ID клиента:</span>
+                <span class="value" id="client_id"></span>
+            </div>
+            <div class="profile-row">
+                <span class="label">Активен:</span>
+                <span class="value" id="is_active"></span>
+            </div>
+            <div class="profile-row">
+                <span class="label">Тип клиента:</span>
+                <span class="value" id="client_type"></span>
+            </div>
+            <div class="profile-row">
+                <span class="label">Email:</span>
+                <span class="value" id="email"></span>
+            </div>
+            <div class="profile-row">
+                <span class="label">Тип пользователя:</span>
+                <span class="value" id="user_type"></span>
+            </div>
+            <div class="profile-row editable">
+                <span class="label">Имя:</span>
+                <span class="value" id="name"></span>
+                <button id="edit-name" class="btn">Изменить</button>
+            </div>
+        </div>
+
+        <!-- ===== Инвайт ===== -->
+        <div class="invite">
+            <h2 class="invite-title">Пригласительная ссылка для игроков</h2>
+
+            <div class="invite-row">
+                <div class="invite-link" id="invite-link">—</div>
+                <button id="copy-invite" class="btn" disabled>Копировать</button>
+            </div>
+
+            <div class="hint">
+                Отправьте эту ссылку игроку — он попадёт на страницу регистрации по вашему ID.
+            </div>
+        </div>
+
     </div>
 
     <script type="module" src="profile.js"></script>

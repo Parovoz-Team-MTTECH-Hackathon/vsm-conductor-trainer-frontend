@@ -2,19 +2,42 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="public-profile.css">
   <title>Публичный профиль игрока</title>
 </head>
 <body>
-  <h1>Публичный профиль игрока</h1>
+  <div class="profile-container">
+    <button class="back-btn" onclick="history.back()">← Назад</button>
 
-  <div id="status" class="loading">Загрузка…</div>
+    <h1 class="page-title">Публичный профиль игрока</h1>
 
-  <div id="content" class="card" hidden>
-    <div class="row"><span class="label">Client ID:</span> <span class="value" id="client_id"></span></div>
-    <div class="row"><span class="label">Активен:</span> <span class="value" id="is_active"></span></div>
-    <div class="row"><span class="label">Тип клиента:</span> <span class="value" id="client_type"></span></div>
-    <div class="row"><span class="label">Тип пользователя:</span> <span class="value" id="user_type"></span></div>
-    <div class="row"><span class="label">Имя:</span> <span class="value" id="shorted_name"></span></div>
+    <!-- Статус загрузки -->
+    <div id="status" class="status loading">Загрузка…</div>
+
+    <!-- Карточка с данными -->
+    <div id="content" class="card" hidden>
+      <div class="row">
+        <span class="label">ID клиента:</span>
+        <span class="value" id="client_id"></span>
+      </div>
+      <div class="row">
+        <span class="label">Активен:</span>
+        <span class="value" id="is_active"></span>
+      </div>
+      <div class="row">
+        <span class="label">Тип клиента:</span>
+        <span class="value" id="client_type"></span>
+      </div>
+      <div class="row">
+        <span class="label">Тип пользователя:</span>
+        <span class="value" id="user_type"></span>
+      </div>
+      <div class="row">
+        <span class="label">Имя:</span>
+        <span class="value" id="shorted_name"></span>
+      </div>
+    </div>
   </div>
 
   <script type="module" src="public-profile.js"></script>

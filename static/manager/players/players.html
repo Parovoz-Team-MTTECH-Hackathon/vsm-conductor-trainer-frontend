@@ -1,32 +1,41 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <link rel="stylesheet" href="players.css">
-    <meta charset="UTF-8">
-    <title>Игроки</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Игроки</title>
+  <link rel="stylesheet" type="text/css" href="players.css">
 </head>
 <body>
-  <h1>Список игроков</h1>
+  <div class="players-container">
 
-  <div id="status" class="loading">Загрузка…</div>
+    <button class="back-btn" onclick="history.back()">← Назад</button>
 
-  <table id="players-table" hidden>
-      <thead>
-        <tr>
-          <th>Стата</th>
-          <th>Кик</th>
-          <th>Client ID</th>
-          <th>Активен</th>
-          <th>Тип клиента</th>
-          <th>Email</th>
-          <th>Тип пользователя</th>
-          <th>Имя</th>
-          <th>Фамилия</th>
-          <th>Отчество</th>
-        </tr>
-      </thead>
-    <tbody id="players-body"></tbody>
-  </table>
+    <h1 class="page-title">Список игроков</h1>
+
+    <div id="status" class="loading">Загрузка…</div>
+
+    <div class="table-wrapper">
+      <table id="players-table" class="players-table" hidden>
+        <thead>
+          <tr>
+            <th>Статистика</th>
+            <th>Кик</th>
+            <th>ID клиента</th>
+            <th>Активен</th>
+            <th>Тип клиента</th>
+            <th>Email</th>
+            <th>Тип пользователя</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Отчество</th>
+          </tr>
+        </thead>
+        <tbody id="players-body"></tbody>
+      </table>
+    </div>
+
+  </div>
 
   <script type="module" src="players.js"></script>
 </body>

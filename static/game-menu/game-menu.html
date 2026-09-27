@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Меню игры</title>
+    <link rel="stylesheet" type="text/css" href="game-menu.css">
+</head>
+<body>
+    <div class="game-container">
+
+        <!-- ===== Навигация ===== -->
+        <div class="topbar">
+            <button class="back-btn" onclick="history.back()">← Назад</button>
+            <a href="/static/profile/profile.html" class="profile-btn">Профиль</a>
+        </div>
+
+        <h1 class="page-title">Меню игры</h1>
+
+        <!-- ===== ТАБЛИЦА ЛИДЕРОВ ===== -->
+        <div class="panel">
+            <div class="panel-header">
+                <h2 class="panel-title">Таблица лидеров</h2>
+            </div>
+
+            <div id="leaders-status" class="loading">Загрузка…</div>
+
+            <div class="table-wrapper">
+                <table id="leaders-table" class="leaders-table" hidden>
+                    <thead>
+                        <tr>
+                            <th class="rank">#</th>
+                            <th>Имя</th>
+                            <th class="score">Счёт</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaders-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== СЦЕНАРИИ ===== -->
+        <div class="panel">
+            <div class="panel-header">
+                <h2 class="panel-title">Сценарии</h2>
+            </div>
+
+            <div id="scenarios-status" class="loading">Загрузка…</div>
+
+            <div id="scenario-list" class="scenario-list" hidden></div>
+        </div>
+
+    </div>
+
+    <script type="module" src="game-menu.js"></script>
+</body>
+</html>

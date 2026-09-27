@@ -46,8 +46,12 @@ body {
     line-height: 1.5;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 /* --- Контейнер --- */
-.players-container {
+.admin-players-container {
     width: 100%;
     max-width: 1200px;
     display: flex;
@@ -81,7 +85,7 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* --- Обертка таблицы (горизонтальный скролл на десктопе) --- */
+/* --- Обертка таблицы --- */
 .table-wrapper {
     overflow-x: auto;
     border-radius: var(--radius);
@@ -95,11 +99,6 @@ body {
     height: 6px;
 }
 
-.table-wrapper::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 3px;
-}
-
 .table-wrapper::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.2);
     border-radius: 3px;
@@ -109,7 +108,7 @@ body {
 .players-table {
     border-collapse: collapse;
     width: 100%;
-    min-width: 1000px; /* Чтобы на десктопе была горизонтальная прокрутка, если не влазит */
+    min-width: 1000px;
 }
 
 .players-table th,
@@ -151,13 +150,34 @@ body {
 }
 
 /* --- Колонка действий --- */
-.players-table td.actions {
+/* Внутри ячейки JS создаёт <div class="actions"> с чекбоксом и кнопкой.
+   Именно этот div должен быть флексом, а не сама td — иначе ломается
+   border-collapse: collapse у таблицы на десктопе. */
+.players-table td .actions {
     display: flex;
-    gap: 6px;
+    gap: 8px;
     align-items: center;
+    flex-wrap: wrap;
 }
 
-/* --- Кнопки в таблице --- */
+/* --- Чекбокс --- */
+.actions input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--alt-bg);
+    flex-shrink: 0;
+}
+
+.toggle-label {
+    font-size: 12px;
+    opacity: 0.6;
+    user-select: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+/* --- Кнопки --- */
 .icon-btn {
     border: 1px solid var(--border-color);
     background: var(--card-bg-alt);
@@ -187,24 +207,61 @@ body {
 .icon-btn.danger {
     color: var(--danger);
     border-color: rgba(224, 82, 82, 0.4);
+    background: rgba(224, 82, 82, 0.1);
 }
 
 .icon-btn.danger:hover {
-    background: rgba(224, 82, 82, 0.2);
+    background: rgba(224, 82, 82, 0.25);
     border-color: var(--danger);
 }
 
 .icon-btn:disabled {
     opacity: 0.4;
     cursor: not-allowed;
+    transform: none;
 }
 
-/* --- Значения "Активен" --- */
+/* --- Кнопка «Удалить» из JS (класс del-btn) --- */
+.del-btn {
+    border: 1px solid rgba(224, 82, 82, 0.4);
+    background: rgba(224, 82, 82, 0.1);
+    color: var(--danger);
+    border-radius: 8px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: 'MoscowSans', sans-serif;
+    transition: all var(--transition);
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.del-btn:hover {
+    background: rgba(224, 82, 82, 0.25);
+    border-color: var(--danger);
+}
+
+.del-btn:active {
+    transform: scale(0.96);
+}
+
+.del-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* --- Статус активности --- */
+/* CSS-классы, которые JS ставит на ячейку «Активен» */
+.status-active,
 .value-active {
     color: var(--success);
     font-weight: 800;
 }
 
+.status-inactive,
 .value-inactive {
     color: var(--danger);
     font-weight: 800;
@@ -239,13 +296,26 @@ body {
     100% { opacity: 0.5; }
 }
 
-/* --- Адаптив для планшетов и телефонов --- */
+/* ============================================================
+   Адаптив: таблица → карточки
+   ВАЖНО: JS не добавляет data-label, поэтому подписи колонок
+   заданы через nth-child. Порядок колонок (из JS и HTML):
+     1. Действия
+     2. ID клиента
+     3. Активен
+     4. Тип клиента
+     5. Email
+     6. Тип пользователя
+     7. Имя
+     8. Фамилия
+     9. Отчество
+   ============================================================ */
 @media (max-width: 900px) {
+
     .players-table {
         min-width: unset;
     }
 
-    /* Таблица → карточки */
     .players-table thead {
         display: none;
     }
@@ -282,6 +352,7 @@ body {
         gap: 12px;
     }
 
+    /* Базовая подпись — берётся из data-label, если JS её положит */
     .players-table td::before {
         content: attr(data-label);
         font-weight: 800;
@@ -290,18 +361,37 @@ body {
         text-transform: uppercase;
         letter-spacing: 0.5px;
         flex-shrink: 0;
+        text-align: left;
     }
 
+    /* Fallback через nth-child — работает без JS */
+    .players-table td:nth-child(1)::before  { content: "Действия"; }
+    .players-table td:nth-child(2)::before  { content: "ID клиента"; }
+    .players-table td:nth-child(3)::before  { content: "Активен"; }
+    .players-table td:nth-child(4)::before  { content: "Тип клиента"; }
+    .players-table td:nth-child(5)::before  { content: "Email"; }
+    .players-table td:nth-child(6)::before  { content: "Тип пользователя"; }
+    .players-table td:nth-child(7)::before  { content: "Имя"; }
+    .players-table td:nth-child(8)::before  { content: "Фамилия"; }
+    .players-table td:nth-child(9)::before  { content: "Отчество"; }
+
+    /* Первая ячейка — действия: без подписи, кнопки справа */
     .players-table td.actions {
         justify-content: flex-end;
         flex-wrap: wrap;
         padding-top: 12px;
-        border-top: 1px solid var(--border-color);
-        margin-top: 6px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 6px;
     }
 
     .players-table td.actions::before {
         display: none;
+    }
+
+    .players-table td .actions {
+        justify-content: flex-end;
+        width: 100%;
     }
 
     .table-wrapper {
@@ -326,7 +416,8 @@ body {
         font-size: 20px;
     }
 
-    .icon-btn {
+    .icon-btn,
+    .del-btn {
         padding: 6px 8px;
         font-size: 12px;
     }

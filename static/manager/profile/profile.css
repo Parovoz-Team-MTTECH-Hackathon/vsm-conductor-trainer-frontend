@@ -1,0 +1,310 @@
+/* --- Подключение шрифтов --- */
+@font-face {
+    font-family: 'MoscowSans';
+    src: url('/static/src/fonts/moscowsansregular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MoscowSans';
+    src: url('/static/src/fonts/MoscowSansExtraBold.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+/* --- Переменные (единая палитра) --- */
+:root {
+    --bg-color: #1a1230;
+    --alt-bg: #3f6fd1;
+    --text-color: #ffffff;
+    --danger: #e05252;
+    --success: #4ade80;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --border-color: rgba(255, 255, 255, 0.12);
+    --radius: 12px;
+    --transition: 0.3s ease;
+}
+
+/* --- Сброс и база --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'MoscowSans', sans-serif;
+    font-weight: 400;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    line-height: 1.5;
+}
+
+/* --- Контейнер --- */
+.manager-container {
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* --- Навигация --- */
+.nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.back-btn,
+.logout-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: var(--radius);
+    font-family: 'MoscowSans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all var(--transition);
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--text-color);
+}
+
+.back-btn:hover {
+    background: rgba(63, 111, 209, 0.25);
+    border-color: var(--alt-bg);
+}
+
+.logout-btn {
+    color: var(--danger);
+    border-color: rgba(224, 82, 82, 0.4);
+}
+
+.logout-btn:hover {
+    background: rgba(224, 82, 82, 0.15);
+    border-color: var(--danger);
+}
+
+/* --- Заголовок --- */
+.page-title {
+    font-weight: 800;
+    font-size: 26px;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+/* --- Карточка профиля --- */
+.profile-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border-color);
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.profile-row:last-child {
+    border-bottom: none;
+}
+
+.profile-row.editable {
+    flex-wrap: wrap;
+}
+
+.profile-row.editable .value {
+    flex-grow: 1;
+    text-align: right;
+}
+
+/* --- Лейблы и значения --- */
+.label {
+    font-size: 14px;
+    opacity: 0.6;
+    white-space: nowrap;
+}
+
+.value {
+    font-weight: 800;
+    font-size: 15px;
+    text-align: right;
+    word-break: break-word;
+}
+
+/* --- Кнопки --- */
+.btn {
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'MoscowSans', sans-serif;
+    font-weight: 400;
+    color: var(--text-color);
+    background: var(--alt-bg);
+    transition: filter var(--transition), transform 0.1s;
+    white-space: nowrap;
+}
+
+.btn:hover {
+    filter: brightness(1.1);
+}
+
+.btn:active {
+    transform: scale(0.96);
+}
+
+.btn:disabled {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.4);
+    cursor: not-allowed;
+    filter: none;
+}
+
+.btn.copied {
+    background: var(--success);
+    color: #0a2a15;
+    font-weight: 800;
+}
+
+/* --- Инвайт --- */
+.invite {
+    margin-top: 4px;
+    padding: 18px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    background-color: var(--card-bg);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.invite-title {
+    font-weight: 800;
+    font-size: 18px;
+}
+
+.invite-row {
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
+}
+
+.invite-link {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.25);
+    font-family: monospace;
+    font-size: 13px;
+    overflow-x: auto;
+    white-space: nowrap;
+    user-select: all;
+    display: flex;
+    align-items: center;
+    color: var(--text-color);
+    scrollbar-width: thin;
+}
+
+.invite-link::-webkit-scrollbar {
+    height: 4px;
+}
+
+.invite-link::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+}
+
+.hint {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+/* --- Адаптив для телефонов --- */
+@media (max-width: 600px) {
+    body {
+        padding: 14px;
+    }
+
+    .page-title {
+        font-size: 22px;
+    }
+
+    .profile-row {
+        padding: 10px 14px;
+    }
+
+    .invite {
+        padding: 14px;
+    }
+
+    .invite-row {
+        flex-direction: column;
+    }
+
+    .invite-link {
+        white-space: normal;
+        word-break: break-all;
+        overflow-x: visible;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .profile-row.editable .btn {
+        width: 100%;
+        margin-top: 6px;
+    }
+
+    .profile-row.editable .value {
+        text-align: left;
+        width: 100%;
+    }
+}
+
+@media (max-width: 360px) {
+    .page-title {
+        font-size: 20px;
+    }
+
+    .label {
+        font-size: 13px;
+    }
+
+    .value {
+        font-size: 14px;
+    }
+
+    .nav-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .back-btn,
+    .logout-btn {
+        justify-content: center;
+    }
+}

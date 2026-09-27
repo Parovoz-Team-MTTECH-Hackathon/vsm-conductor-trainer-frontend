@@ -2,43 +2,55 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация менеджера</title>
     <link rel="stylesheet" type="text/css" href="sign-up.css">
 </head>
 <body>
-    <form>
-        <h2>Регистрация менеджера</h2>
+    <div class="auth-container">
+        <form class="auth-form" id="manager-signup-form">
 
-        <div id="err"></div>
+            <button type="button" class="back-btn" onclick="history.back()">← Назад</button>
 
-        <div class="field-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required placeholder="name@example.com" />
-        </div>
+            <h2 class="form-title">Регистрация менеджера</h2>
 
-        <div class="field-group password-row">
-            <div style="flex-grow: 1;">
-                <label for="password">Пароль:</label>
-                <input type="password" id="pass" name="password" required />
+            <!-- Блок ошибок -->
+            <div id="err" class="error-box"></div>
+
+            <!-- Email -->
+            <div class="field-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required placeholder="name@example.com" />
             </div>
-            <button type="button" id="show-pass" class="toggle-btn"></button>
-        </div>
 
-        <div class="field-group password-row">
-            <div style="flex-grow: 1;">
-                <label for="password-repeat">Повторить пароль:</label>
-                <input type="password" id="pass-rep" name="password-repeat" required />
+            <!-- Пароль -->
+            <div class="field-group password-row">
+                <div class="input-wrapper">
+                    <label for="pass">Пароль</label>
+                    <input type="password" id="pass" name="password" required placeholder="••••••••" />
+                </div>
+                <button type="button" id="show-pass" class="toggle-btn eye-btn" aria-label="Показать пароль"></button>
             </div>
-            <button type="button" id="show-pass-rep" class="toggle-btn"></button>
-        </div>
 
-        <div class="field-group">
-            <label for="name">Имя:</label>
-            <input type="text" id="name" name="name" required />
-        </div>
+            <!-- Повтор пароля -->
+            <div class="field-group password-row">
+                <div class="input-wrapper">
+                    <label for="pass-rep">Повторить пароль</label>
+                    <input type="password" id="pass-rep" name="password-repeat" required placeholder="••••••••" />
+                </div>
+                <button type="button" id="show-pass-rep" class="toggle-btn eye-btn" aria-label="Показать пароль"></button>
+            </div>
 
-        <button type="button" id="send" class="toggle-btn">Отправить</button>
-    </form>
+            <!-- Имя -->
+            <div class="field-group">
+                <label for="name">Имя</label>
+                <input type="text" id="name" name="name" required placeholder="Пётр" />
+            </div>
+
+            <!-- Кнопка отправки -->
+            <button type="button" id="send" class="submit-btn">Зарегистрировать</button>
+        </form>
+    </div>
 
     <script type="module" src="sign-up.js"></script>
 
@@ -53,7 +65,7 @@
             btn.addEventListener('click', () => {
                 isShown = !isShown;
                 input.type = isShown ? 'text' : 'password';
-                btn.dataset.shown = isShown;
+                btn.classList.toggle('active', isShown);
             });
         }
 

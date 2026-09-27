@@ -1,4 +1,5 @@
 /* --- Подключение шрифтов --- */
+/* Предполагаем, что CSS лежит рядом с папкой fonts, как на скрине */
 @font-face {
     font-family: 'MoscowSans';
     src: url('/static/src/fonts/moscowsansregular.ttf') format('truetype');
@@ -13,12 +14,11 @@
     font-style: normal;
 }
 
-/* --- Переменные (единая палитра) --- */
+/* --- Переменные и сброс --- */
 :root {
     --bg-color: #1a1230;
     --alt-bg: #3f6fd1;
     --text-color: #ffffff;
-    --danger: #e05252;
     --input-bg: rgba(255, 255, 255, 0.1);
     --input-border: rgba(255, 255, 255, 0.2);
     --input-focus: #ffffff;
@@ -26,7 +26,6 @@
     --transition: 0.3s ease;
 }
 
-/* --- Сброс и база --- */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -49,9 +48,11 @@ body {
 .auth-container {
     width: 100%;
     max-width: 400px;
+    /* На мобилках занимает всю ширину, на десктопе ограничено */
 }
 
 .auth-form {
+    background-color: transparent;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -99,7 +100,7 @@ body {
     margin-left: 4px;
 }
 
-/* Строка пароля (инпут + кнопка-глаз) */
+/* Строка для пароля (инпут + кнопка) */
 .password-row {
     flex-direction: row;
     align-items: flex-end;
@@ -138,7 +139,7 @@ input:focus {
 
 /* --- Кнопка-глаз (Toggle) --- */
 .eye-btn {
-    width: 48px;
+    width: 48px; /* Высота как у инпута */
     height: 48px;
     border-radius: var(--radius);
     border: 1px solid var(--input-border);
@@ -149,9 +150,9 @@ input:focus {
     justify-content: center;
     transition: all var(--transition);
     position: relative;
-    flex-shrink: 0;
 }
 
+/* Рисуем иконку глаза через CSS (псевдо-элементы) */
 .eye-btn::before {
     content: '';
     width: 20px;
@@ -172,6 +173,7 @@ input:focus {
     opacity: 0.6;
 }
 
+/* Состояние "пароль показан" */
 .eye-btn.active {
     background-color: var(--alt-bg);
     border-color: var(--alt-bg);
@@ -180,6 +182,11 @@ input:focus {
 .eye-btn.active::before,
 .eye-btn.active::after {
     opacity: 1;
+}
+
+/* Перечеркивание глаза, когда скрыт */
+.eye-btn:not(.active)::before {
+    /* Можно добавить линию перечеркивания, но для минимализма оставим просто прозрачность */
 }
 
 /* --- Кнопка Отправить --- */
@@ -200,17 +207,17 @@ input:focus {
     letter-spacing: 1px;
 }
 
-.submit-btn:hover {
-    filter: brightness(1.1);
-}
-
 .submit-btn:active {
     transform: scale(0.98);
 }
 
+.submit-btn:hover {
+    filter: brightness(1.1);
+}
+
 /* --- Блок ошибок --- */
 .error-box {
-    color: var(--danger);
+    color: #ff6b6b;
     font-size: 14px;
     text-align: center;
     min-height: 20px;
@@ -222,18 +229,11 @@ input:focus {
     .form-title {
         font-size: 24px;
     }
-
     input {
         padding: 12px 14px;
     }
-
     .eye-btn {
         width: 44px;
         height: 44px;
-    }
-
-    .submit-btn {
-        font-size: 16px;
-        padding: 14px;
     }
 }

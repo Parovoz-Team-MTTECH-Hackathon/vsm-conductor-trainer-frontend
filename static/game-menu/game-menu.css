@@ -1,0 +1,458 @@
+/* --- Подключение шрифтов --- */
+@font-face {
+    font-family: 'MoscowSans';
+    src: url('/static/src/fonts/moscowsansregular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MoscowSans';
+    src: url('/static/src/fonts/MoscowSansExtraBold.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+/* --- Переменные (единая палитра) --- */
+:root {
+    --bg-color: #1a1230;
+    --alt-bg: #3f6fd1;
+    --text-color: #ffffff;
+    --danger: #e05252;
+    --success: #4ade80;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --card-bg-alt: rgba(255, 255, 255, 0.08);
+    --border-color: rgba(255, 255, 255, 0.12);
+    --radius: 12px;
+    --transition: 0.3s ease;
+}
+
+/* --- Сброс и база --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'MoscowSans', sans-serif;
+    font-weight: 400;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    line-height: 1.5;
+}
+
+/* --- Контейнер --- */
+.game-container {
+    width: 100%;
+    max-width: 960px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* --- Верхняя навигация (Назад + Профиль) --- */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    opacity: 0.7;
+    font-family: 'MoscowSans', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 5px 0;
+    transition: opacity var(--transition);
+}
+
+.back-btn:hover {
+    opacity: 1;
+}
+
+.profile-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--text-color);
+    font-family: 'MoscowSans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all var(--transition);
+}
+
+.profile-btn:hover {
+    background: rgba(63, 111, 209, 0.25);
+    border-color: var(--alt-bg);
+}
+
+.profile-btn:active {
+    transform: scale(0.97);
+}
+
+/* --- Заголовок --- */
+.page-title {
+    font-weight: 800;
+    font-size: 28px;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+/* --- Панели --- */
+.panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.panel-title {
+    font-weight: 800;
+    font-size: 20px;
+}
+
+/* --- Таблица лидеров --- */
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+}
+
+.table-wrapper::-webkit-scrollbar {
+    height: 6px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.leaders-table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 400px;
+}
+
+.leaders-table th,
+.leaders-table td {
+    border-bottom: 1px solid var(--border-color);
+    padding: 12px 16px;
+    text-align: left;
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.leaders-table th {
+    background: rgba(255, 255, 255, 0.05);
+    font-weight: 800;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.7;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.leaders-table tbody tr {
+    cursor: pointer;
+    transition: background var(--transition);
+}
+
+.leaders-table tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.leaders-table tbody tr:hover {
+    background: rgba(63, 111, 209, 0.18);
+}
+
+.leaders-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.leaders-table .rank {
+    width: 60px;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 800;
+}
+
+.leaders-table .score {
+    font-weight: 800;
+    color: var(--success);
+}
+
+/* ============================================================
+   Сетка сценариев
+   JS создаёт класс .scenario-btn (не .scenario-card),
+   поэтому стилизуем оба варианта.
+   ============================================================ */
+.scenario-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+}
+
+.scenario-list .scenario-btn,
+.scenario-list .scenario-card {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 14px;
+
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+    color: var(--text-color);
+    font-family: 'MoscowSans', sans-serif;
+    font-weight: 400;
+
+    transition: background var(--transition), border-color var(--transition), transform 0.1s;
+    min-height: 64px;
+    width: 100%;
+    box-shadow: none;
+    outline: none;
+}
+
+.scenario-list .scenario-btn:hover,
+.scenario-list .scenario-card:hover {
+    background: rgba(63, 111, 209, 0.18);
+    border-color: var(--alt-bg);
+    transform: translateY(-1px);
+}
+
+.scenario-list .scenario-btn:active,
+.scenario-list .scenario-card:active {
+    transform: scale(0.98);
+}
+
+.scenario-list .scenario-btn:focus-visible,
+.scenario-list .scenario-card:focus-visible {
+    outline: 2px solid var(--alt-bg);
+    outline-offset: 2px;
+}
+
+/* --- Иконка (это сам <img class="icon">) --- */
+.scenario-list .scenario-btn > .icon,
+.scenario-list .scenario-card > .icon {
+    display: block;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    object-fit: contain;
+    background: rgba(63, 111, 209, 0.25);
+    border-radius: 8px;
+    padding: 4px;
+    box-sizing: border-box;
+}
+
+.scenario-list .scenario-btn > .icon[src=""],
+.scenario-list .scenario-card > .icon[src=""] {
+    background: rgba(63, 111, 209, 0.25);
+}
+
+/* --- Мета-блок --- */
+.scenario-list .scenario-btn > .meta,
+.scenario-list .scenario-card > .meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    flex: 1 1 auto;
+    text-align: left;
+}
+
+.scenario-list .scenario-btn .title,
+.scenario-list .scenario-card .title {
+    font-weight: 800;
+    font-size: 15px;
+    color: var(--text-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+.scenario-list .scenario-btn .desc,
+.scenario-list .scenario-card .desc {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+/* --- Статусы --- */
+.loading {
+    color: rgba(255, 255, 255, 0.7);
+    animation: pulse 1.5s infinite ease-in-out;
+    padding: 12px 0;
+    font-size: 14px;
+}
+
+.error {
+    color: var(--danger);
+    padding: 12px 0;
+    font-size: 14px;
+}
+
+.empty {
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+    padding: 8px 0;
+    font-size: 14px;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+/* --- Адаптив для планшетов и телефонов --- */
+@media (max-width: 768px) {
+    body {
+        padding: 14px;
+    }
+
+    .page-title {
+        font-size: 24px;
+    }
+
+    .panel-title {
+        font-size: 18px;
+    }
+
+    .scenario-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    /* Таблица лидеров → карточки */
+    .leaders-table {
+        min-width: unset;
+    }
+
+    .leaders-table thead {
+        display: none;
+    }
+
+    .leaders-table,
+    .leaders-table tbody,
+    .leaders-table tr,
+    .leaders-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .leaders-table tr {
+        margin-bottom: 10px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius);
+        background-color: var(--card-bg);
+        padding: 6px 0;
+        overflow: hidden;
+    }
+
+    .leaders-table tr:last-child {
+        margin-bottom: 0;
+    }
+
+    .leaders-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 16px;
+        border: none;
+        font-size: 14px;
+        gap: 12px;
+    }
+
+    .leaders-table td::before {
+        content: attr(data-label);
+        font-weight: 800;
+        font-size: 11px;
+        opacity: 0.6;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        flex-shrink: 0;
+    }
+
+    .leaders-table td:nth-child(1)::before { content: "#"; }
+    .leaders-table td:nth-child(2)::before { content: "Имя"; }
+    .leaders-table td:nth-child(3)::before { content: "Счёт"; }
+
+    .table-wrapper {
+        border: none;
+        background: transparent;
+        overflow: visible;
+    }
+}
+
+@media (max-width: 360px) {
+    .page-title {
+        font-size: 20px;
+    }
+
+    .topbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .profile-btn {
+        justify-content: center;
+    }
+
+    .scenario-list .scenario-btn,
+    .scenario-list .scenario-card {
+        padding: 10px;
+    }
+
+    .scenario-list .scenario-btn > .icon,
+    .scenario-list .scenario-card > .icon {
+        width: 32px;
+        height: 32px;
+        flex: 0 0 32px;
+    }
+
+    .leaders-table td {
+        padding: 6px 12px;
+    }
+}

@@ -19,7 +19,6 @@
     --alt-bg: #3f6fd1;
     --text-color: #ffffff;
     --card-bg: rgba(255, 255, 255, 0.05);
-    --card-bg-alt: rgba(255, 255, 255, 0.08);
     --border-color: rgba(255, 255, 255, 0.12);
     --radius: 12px;
     --transition: 0.3s ease;
@@ -45,15 +44,23 @@ body {
 }
 
 /* --- Контейнер --- */
-.profile-container {
+.stat-container {
     width: 100%;
     max-width: 900px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
 }
 
-/* --- Кнопка Назад --- */
+/* --- Навигация (Назад + ссылка) --- */
+.nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
 .back-btn {
     background: none;
     border: none;
@@ -62,13 +69,25 @@ body {
     font-family: 'MoscowSans', sans-serif;
     font-size: 16px;
     cursor: pointer;
-    align-self: flex-start;
     padding: 5px 0;
     transition: opacity var(--transition);
 }
 
 .back-btn:hover {
     opacity: 1;
+}
+
+.back-link {
+    color: var(--alt-bg);
+    text-decoration: none;
+    font-size: 14px;
+    opacity: 0.9;
+    transition: opacity var(--transition);
+}
+
+.back-link:hover {
+    opacity: 1;
+    text-decoration: underline;
 }
 
 /* --- Заголовки --- */
@@ -79,50 +98,35 @@ body {
     letter-spacing: 0.5px;
 }
 
-.panel-title {
-    font-weight: 800;
-    font-size: 20px;
-    margin-bottom: 12px;
-}
-
 .sub-title {
     font-weight: 800;
-    font-size: 18px;
-    margin: 20px 0 12px 0;
+    font-size: 20px;
+    margin-top: 10px;
 }
 
-/* --- Карточка профиля --- */
-.profile-card {
+/* --- Карточка --- */
+.card {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
-    padding: 10px 0;
+    padding: 16px;
     display: flex;
     flex-direction: column;
+    gap: 10px;
 }
 
-.profile-row {
+.row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 18px;
-    border-bottom: 1px solid var(--border-color);
     gap: 12px;
-    flex-wrap: wrap;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
 }
 
-.profile-row:last-child {
+.row:last-of-type {
     border-bottom: none;
-}
-
-/* --- Поля с кнопками "Изменить" --- */
-.profile-row.editable {
-    flex-wrap: wrap;
-}
-
-.profile-row.editable .value {
-    flex-grow: 1;
-    text-align: right;
+    padding-bottom: 0;
 }
 
 /* --- Лейблы и значения --- */
@@ -139,65 +143,12 @@ body {
     word-break: break-word;
 }
 
-/* --- Кнопка "Изменить" --- */
-.btn {
-    border: none;
-    border-radius: 8px;
-    padding: 6px 12px;
-    cursor: pointer;
-    font-size: 13px;
-    font-family: 'MoscowSans', sans-serif;
-    color: var(--text-color);
-    background: var(--alt-bg);
-    transition: filter var(--transition), transform 0.1s;
-    white-space: nowrap;
-}
-
-.btn:hover {
-    filter: brightness(1.1);
-}
-
-.btn:active {
-    transform: scale(0.96);
-}
-
-.btn:disabled {
-    background: #444;
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
-/* --- Панель статистики --- */
-.panel {
-    display: flex;
-    flex-direction: column;
-}
-
-/* --- Карточка статистики --- */
-.card {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius);
-    padding: 16px;
-    margin-bottom: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.card-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-}
-
-/* --- Чипы (пройденные сценарии) --- */
-.chips {
+/* --- Сценарии (чипы) --- */
+.scenarios {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-top: 8px;
+    margin-top: 6px;
 }
 
 .chip {
@@ -209,7 +160,7 @@ body {
     color: var(--text-color);
 }
 
-/* --- Обертка для таблицы (горизонтальный скролл) --- */
+/* --- Обертка таблицы (горизонтальный скролл) --- */
 .table-wrapper {
     overflow-x: auto;
     border-radius: var(--radius);
@@ -221,7 +172,7 @@ body {
 table.ach {
     border-collapse: collapse;
     width: 100%;
-    min-width: 600px; /* Чтобы на телефоне был скролл, если не влазит */
+    min-width: 600px;
 }
 
 table.ach th,
@@ -261,21 +212,18 @@ table.ach .delta {
 }
 
 /* --- Статусы --- */
-.error {
-    color: #ff6b6b;
-    margin: 10px 0;
-    font-size: 14px;
-}
-
 .loading {
     color: rgba(255, 255, 255, 0.7);
     animation: pulse 1.5s infinite ease-in-out;
     padding: 12px 0;
+    text-align: center;
 }
 
 .empty {
     color: rgba(255, 255, 255, 0.5);
     font-style: italic;
+    text-align: center;
+    padding: 20px;
 }
 
 @keyframes pulse {
@@ -286,28 +234,41 @@ table.ach .delta {
 
 /* --- Адаптив для телефонов --- */
 @media (max-width: 600px) {
+    body {
+        padding: 14px;
+    }
+
     .page-title {
         font-size: 22px;
     }
 
-    .profile-row {
-        padding: 10px 14px;
+    .sub-title {
+        font-size: 18px;
     }
 
-    /* Таблица превращается в карточки */
+    .nav-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    /* Таблица → карточки */
     table.ach {
         min-width: unset;
     }
 
     table.ach thead {
-        display: none; /* Скрываем шапку */
+        display: none;
     }
 
     table.ach tr {
         display: block;
-        margin-bottom: 12px;
+        padding: 10px 0;
         border-bottom: 1px solid var(--border-color);
-        padding: 8px 0;
+    }
+
+    table.ach tr:last-child {
+        border-bottom: none;
     }
 
     table.ach td {
@@ -317,16 +278,15 @@ table.ach .delta {
         padding: 6px 14px;
         border: none;
         font-size: 14px;
+        gap: 10px;
     }
 
-    /* Подпись слева, значение справа */
     table.ach td::before {
         content: attr(data-label);
         font-weight: 800;
         font-size: 12px;
         opacity: 0.6;
         text-transform: uppercase;
-        margin-right: 10px;
         flex-shrink: 0;
     }
 
@@ -335,9 +295,9 @@ table.ach .delta {
         height: 28px;
     }
 
-    .btn {
-        padding: 5px 10px;
-        font-size: 12px;
+    table.ach td.delta,
+    table.ach td .delta {
+        color: #4ade80;
     }
 }
 
@@ -354,12 +314,7 @@ table.ach .delta {
         font-size: 14px;
     }
 
-    .btn {
-        width: 100%;
-        margin-top: 6px;
-    }
-
-    .profile-row.editable .value {
-        text-align: left;
+    .card {
+        padding: 12px;
     }
 }

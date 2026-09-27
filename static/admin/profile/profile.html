@@ -1,44 +1,73 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Профиль администратора</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль администратора</title>
+    <link rel="stylesheet" type="text/css" href="profile.css">
 </head>
 <body>
-  <h1>Профиль администратора</h1>
+    <div class="admin-container">
 
-  <div id="profile">
-    <p><span class="label">Client ID:</span> <span class="value" id="client_id"></span></p>
-    <p><span class="label">Is Active:</span> <span class="value" id="is_active"></span></p>
-    <p><span class="label">Client Type:</span> <span class="value" id="client_type"></span></p>
-    <p><span class="label">Email:</span> <span class="value" id="email"></span></p>
-    <p><span class="label">User Type:</span> <span class="value" id="user_type"></span></p>
-  </div>
+        <button class="back-btn" onclick="history.back()">← Назад</button>
 
-  <!-- ===== СЦЕНАРИИ ===== -->
-  <div class="panel">
-    <div class="scenarios-header">
-      <h2>Сценарии</h2>
-      <button id="create-scenario" class="btn primary">Создать сценарий</button>
+        <h1 class="page-title">Профиль администратора</h1>
+
+        <!-- ===== ПРОФИЛЬ ===== -->
+        <div id="profile" class="profile-card">
+            <div class="profile-row">
+                <span class="label">ID клиента:</span>
+                <span class="value" id="client_id"></span>
+            </div>
+            <div class="profile-row">
+                <span class="label">Активен:</span>
+                <span class="value" id="is_active"></span>
+            </div>
+            <div class="profile-row">
+                <span class="label">Тип клиента:</span>
+                <span class="value" id="client_type"></span>
+            </div>
+            <div class="profile-row">
+                <span class="label">Email:</span>
+                <span class="value" id="email"></span>
+            </div>
+            <div class="profile-row">
+                <span class="label">Тип пользователя:</span>
+                <span class="value" id="user_type"></span>
+            </div>
+        </div>
+
+        <!-- ===== СЦЕНАРИИ ===== -->
+        <div class="panel">
+            <div class="panel-header">
+                <h2 class="panel-title">Сценарии</h2>
+                <div class="panel-actions">
+                    <button id="refresh-scenarios" class="btn btn-ghost" title="Обновить список">↻ Обновить</button>
+                    <button id="create-scenario" class="btn btn-primary">+ Создать сценарий</button>
+                </div>
+            </div>
+
+            <div id="scenario-error" class="error-banner" hidden></div>
+
+            <div id="scenario-list" class="scenario-list">
+                <div class="empty">Загрузка…</div>
+            </div>
+        </div>
+
+        <!-- ===== МОДЕРИРОВАНИЕ ===== -->
+        <div class="panel">
+            <div class="panel-header">
+                <h2 class="panel-title">Модерирование</h2>
+            </div>
+            <div class="panel-actions">
+                <a href="../players/players.html" class="btn btn-secondary">Игроки</a>
+                <a href="../managers/managers.html" class="btn btn-secondary">Менеджеры</a>
+                <a href="../integrations/integrations.html" class="btn btn-secondary">Интеграции</a>
+            </div>
+        </div>
+
     </div>
 
-    <div id="scenario-error" class="error" hidden></div>
-
-    <div id="scenario-list" class="scenario-list">
-      <div class="empty">Загрузка…</div>
-    </div>
-  </div>
-
-  <!-- ===== МОДЕРИРОВАНИЕ ===== -->
-  <div class="panel">
-    <h2>Модерирование</h2>
-    <div class="scenario-list">
-      <a href="../players/players.html" class="btn secondary">Игроки</a>
-      <a href="../managers/managers.html" class="btn secondary">Менеджеры</a>
-      <a href="../integrations/integrations.html" class="btn secondary">Интеграции</a>
-    </div>
-  </div>
-
-  <script type="module" src="profile.js"></script>
+    <script type="module" src="profile.js"></script>
 </body>
 </html>

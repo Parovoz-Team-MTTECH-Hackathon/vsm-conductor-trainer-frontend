@@ -24,6 +24,14 @@ async function loadProfile() {
 
 async function loadScenarios() {
   const listEl = document.getElementById('scenario-list');
+  const refreshBtn = document.getElementById('refresh-scenarios');
+
+  if (refreshBtn) {
+    refreshBtn.disabled = true;
+    const prev = refreshBtn.textContent;
+    refreshBtn.dataset.prev = prev;
+    refreshBtn.textContent = '↻ Обновление…';
+  }
 
   try {
     const scenarios = await request(listScenariosUrl, null, 'GET');
@@ -39,20 +47,25 @@ async function loadScenarios() {
       empty.className = 'empty';
       empty.textContent = 'Сценариев нет';
       listEl.appendChild(empty);
-      return;
-    }
-
-    for (const s of scenarios) {
-      listEl.appendChild(scenarioButton(s));
+    } else {
+      for (const s of scenarios) {
+        listEl.appendChild(scenarioButton(s));
+      }
     }
   } catch (err) {
     listEl.innerHTML = '';
-    const empty = document.createElement('div');
-    empty.className = 'error';
-    empty.textContent = (err instanceof ValidationError)
+    const box = document.createElement('div');
+    box.className = 'error';
+    box.textContent = (err instanceof ValidationError)
       ? `Ошибка валидации: ${err.reason}`
       : `Не удалось загрузить сценарии: ${err.message}`;
-    listEl.appendChild(empty);
+    listEl.appendChild(box);
+  } finally {
+    if (refreshBtn) {
+      refreshBtn.disabled = false;
+      refreshBtn.textContent = refreshBtn.dataset.prev || '↻ Обновить';
+      delete refreshBtn.dataset.prev;
+    }
   }
 }
 
@@ -61,9 +74,10 @@ function scenarioButton(s) {
   btn.type = 'button';
   btn.className = 'scenario-btn';
 
-  const icon = document.createElement('span');
+  const icon = document.createElement('img');
   icon.className = 'icon';
-  icon.textContent = s.icon || '📄';
+  icon.alt = '';
+  icon.src = s.icon || '';
 
   const meta = document.createElement('span');
   meta.className = 'meta';
@@ -71,19 +85,26 @@ function scenarioButton(s) {
   const title = document.createElement('span');
   title.className = 'title';
   title.textContent = s.label || `Сценарий #${s.scenario_id}`;
+  title.title = s.label || '';
 
   const desc = document.createElement('span');
   desc.className = 'desc';
   desc.textContent = s.description || '';
+  desc.title = s.description || '';
+
+  const sid = document.createElement('span');
+  sid.className = 'sid';
+  sid.textContent = `id: ${s.scenario_id}`;
 
   meta.appendChild(title);
-  if (desc.textContent) meta.appendChild(desc);
+  if (s.description) meta.appendChild(desc);
+  meta.appendChild(sid);
 
   btn.appendChild(icon);
   btn.appendChild(meta);
 
   btn.addEventListener('click', () => {
-    window.location.href = `${EDITOR_URL}?scenario_id=${s.scenario_id}`;
+    window.location.href = `${EDITOR_URL}?scenario_id=${encodeURIComponent(s.scenario_id)}`;
   });
 
   return btn;
@@ -103,12 +124,12 @@ async function createScenario(btn) {
   try {
     const created = await request(createScenarioUrl, null, 'GET');
 
-    const id = created.scenario_id;
+    const id = created?.scenario_id;
     if (id === undefined || id === null) {
       throw new Error('Сервер не вернул scenario_id');
     }
 
-    window.location.href = `${EDITOR_URL}?scenario_id=${id}`;
+    window.location.href = `${EDITOR_URL}?scenario_id=${encodeURIComponent(id)}`;
   } catch (err) {
     btn.disabled = false;
     btn.textContent = originalText;
@@ -125,6 +146,9 @@ async function createScenario(btn) {
 function init() {
   document.getElementById('create-scenario')
     .addEventListener('click', (e) => createScenario(e.currentTarget));
+
+  document.getElementById('refresh-scenarios')
+    .addEventListener('click', () => loadScenarios());
 
   refreshToken().then(() => {
     loadProfile();

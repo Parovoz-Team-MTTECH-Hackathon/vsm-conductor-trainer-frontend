@@ -3,82 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Профиль пользователя</title>
-    <link rel="stylesheet" href="profile.css">
+    <title>Профиль игрока</title>
+    <link rel="stylesheet" type="text/css" href="profile.css">
 </head>
 <body>
-    <div class="profile-card" id="profile">
-        <h2>Профиль пользователя</h2>
-        
-        <div class="profile-header">
-            <div class="avatar-placeholder">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                </svg>
+    <div class="profile-container">
+        <button class="back-btn" onclick="history.back()">← Назад</button>
+
+        <h1 class="page-title">Профиль игрока</h1>
+
+        <!-- ===== ПРОФИЛЬ ===== -->
+        <div id="profile" class="profile-card">
+            <div class="profile-row">
+                <span class="label">ID клиента:</span>
+                <span class="value" id="client_id"></span>
             </div>
-            <span class="user-badge" id="user_type">User</span>
+            <div class="profile-row">
+                <span class="label">Активен:</span>
+                <span class="value" id="is_active"></span>
+            </div>
+            <div class="profile-row">
+                <span class="label">Тип клиента:</span>
+                <span class="value" id="client_type"></span>
+            </div>
+            <div class="profile-row">
+                <span class="label">Email:</span>
+                <span class="value" id="email"></span>
+            </div>
+            <div class="profile-row">
+                <span class="label">Тип пользователя:</span>
+                <span class="value" id="user_type"></span>
+            </div>
+
+            <div class="profile-row editable">
+                <span class="label">Имя:</span>
+                <span class="value" id="first_name"></span>
+                <button id="first" class="btn">Изменить</button>
+            </div>
+            <div class="profile-row editable">
+                <span class="label">Фамилия:</span>
+                <span class="value" id="last_name"></span>
+                <button id="last" class="btn">Изменить</button>
+            </div>
+            <div class="profile-row editable">
+                <span class="label">Отчество:</span>
+                <span class="value" id="patronymic_name"></span>
+                <button id="patr" class="btn">Изменить</button>
+            </div>
         </div>
 
-        <div class="profile-info">
-            <div class="info-item">
-                <div class="info-content">
-                    <span class="info-label">Client ID</span>
-                    <span class="info-value" id="client_id"></span>
-                </div>
-            </div>
+        <!-- ===== СТАТИСТИКА ===== -->
+        <div class="panel">
+            <h2 class="panel-title">Статистика</h2>
 
-            <div class="info-item">
-                <div class="info-content">
-                    <span class="info-label">Email</span>
-                    <span class="info-value" id="email"></span>
-                </div>
-            </div>
+            <div id="stat-status" class="loading">Загрузка…</div>
 
-            <div class="info-item">
-                <div class="info-content">
-                    <span class="info-label">Тип клиента</span>
-                    <span class="info-value" id="client_type"></span>
+            <div id="stat-content" hidden>
+                <div class="card">
+                    <div class="card-row"><span class="label">Имя:</span> <span class="value" id="stat_name"></span></div>
+                    <div class="card-row"><span class="label">ID игрока:</span> <span class="value" id="stat_player_id"></span></div>
+                    <div class="card-row"><span class="label">Счёт:</span> <span class="value" id="stat_score"></span></div>
+                    <div class="card-row">
+                        <span class="label">Пройдено сценариев:</span>
+                        <span class="value" id="stat_completed_count"></span>
+                    </div>
+                    <div id="stat_completed" class="chips"></div>
                 </div>
-            </div>
 
-            <div class="info-item">
-                <div class="info-content">
-                    <span class="info-label">Статус</span>
-                    <span class="info-value status-tag" id="is_active"></span>
-                </div>
-            </div>
+                <h3 class="sub-title">Достижения</h3>
 
-            <div class="info-item">
-                <div class="info-content">
-                    <span class="info-label">Имя</span>
-                    <span class="info-value" id="first_name"></span>
-                </div>
-                <button class="edit-btn" id="first" type="button">
-                    <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
-                    Изм.
-                </button>
-            </div>
+                <div id="stat-ach-status" class="loading">Загрузка…</div>
 
-            <div class="info-item">
-                <div class="info-content">
-                    <span class="info-label">Фамилия</span>
-                    <span class="info-value" id="last_name"></span>
+                <div class="table-wrapper">
+                    <table id="stat-ach-table" class="ach" hidden>
+                        <thead>
+                            <tr>
+                                <th>Иконка</th>
+                                <th>ID сценария</th>
+                                <th>Название</th>
+                                <th>Метка</th>
+                                <th>Описание</th>
+                                <th>Δ Очков</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stat-ach-body"></tbody>
+                    </table>
                 </div>
-                <button class="edit-btn" id="last" type="button">
-                    <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
-                    Изм.
-                </button>
-            </div>
-
-            <div class="info-item">
-                <div class="info-content">
-                    <span class="info-label">Отчество</span>
-                    <span class="info-value" id="patronymic_name"></span>
-                </div>
-                <button class="edit-btn" id="patr" type="button">
-                    <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
-                    Изм.
-                </button>
             </div>
         </div>
     </div>
