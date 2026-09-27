@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h2>Авторизация</h2>
+    <div id="err"></div>
+    <div>
+      <label for="email">Email:</label>
+      <input type="text" id="email" name="email" />
+    </div>
+    <div>
+      <label for="password">Пароль:</label>
+      <input type="password" id="pass" name="password" minlength="8" required />
+      <button id="show-pass">Показать</button>
+    </div>
+    <button type="button" id="send" class="toggle-btn">Отправить</button>
+
+    <script type="module" src="login.js"></script>
+
+    <script>
+        const input = document.getElementById('pass');
+        const btn = document.getElementById('show-pass');
+        let isShown = false;
+
+        btn.addEventListener('click', () => {
+            isShown = !isShown;
+            input.type = isShown ? 'text' : 'password';
+            btn.dataset.shown = isShown;
+        });
+
+    </script>
+</body>
+</html>

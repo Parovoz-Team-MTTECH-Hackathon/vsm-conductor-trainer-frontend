@@ -1,0 +1,213 @@
+/*/* ===== Базовый сброс ===== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 16px;
+    font-family: 'Moscow Sans', 'Segoe UI', system-ui, sans-serif;
+    color: #E8ECF5;
+    background: #14102A;
+}
+
+/* ===== Форма ===== */
+form {
+    width: 100%;
+    max-width: 440px;
+    padding: 44px 36px;
+    border-radius: 18px;
+    background: #1E1838;
+    border: 1px solid rgba(159, 197, 232, 0.15);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+    animation: appear 0.4s ease-out;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== Заголовок ===== */
+h2 {
+    margin-bottom: 36px;
+    font-size: 26px;
+    font-weight: 600;
+    text-align: center;
+    color: #FFFFFF;
+    letter-spacing: 0.2px;
+}
+
+h2::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 2px;
+    margin: 14px auto 0;
+    background: #3F6FD1;
+    border-radius: 2px;
+}
+
+/* ===== Группы полей ===== */
+.field-group {
+    margin-bottom: 22px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #9FC5E8;
+    letter-spacing: 0.3px;
+}
+
+.field-group:focus-within label {
+    color: #FFFFFF;
+}
+
+/* ===== Инпуты ===== */
+input {
+    width: 100%;
+    padding: 13px 16px;
+    font-size: 15px;
+    font-family: inherit;
+    color: #FFFFFF;
+    background: #252045;
+    border: 1px solid rgba(159, 197, 232, 0.2);
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+input::placeholder {
+    color: rgba(159, 197, 232, 0.45);
+}
+
+input:hover {
+    border-color: rgba(159, 197, 232, 0.35);
+    background: #2A2450;
+}
+
+input:focus {
+    border-color: #3F6FD1;
+    background: #2A2450;
+    box-shadow: 0 0 0 3px rgba(63, 111, 209, 0.2);
+}
+
+/* Валидация */
+input:not(:placeholder-shown):valid {
+    border-color: rgba(159, 197, 232, 0.6);
+}
+
+input:not(:placeholder-shown):invalid {
+    border-color: #C25A6B;
+    background: rgba(194, 90, 107, 0.08);
+}
+
+/* ===== Ряд с паролем и кнопкой-глазом ===== */
+.password-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.password-row > div {
+    flex-grow: 1;
+}
+
+.toggle-btn {
+    flex: 0 0 auto;
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    background: #252045;
+    border: 1px solid rgba(159, 197, 232, 0.2);
+    border-radius: 10px;
+    transition: background 0.2s, border-color 0.2s;
+    user-select: none;
+    color: #9FC5E8;
+}
+
+/* Иконка глаза через SVG-подобную маску */
+.toggle-btn::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    background-color: currentColor;
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>");
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    transition: opacity 0.2s;
+}
+
+/* Скрытый глаз (перечёркнутый) */
+.toggle-btn[data-shown="true"]::before {
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24'/><line x1='1' y1='1' x2='23' y2='23'/></svg>");
+    mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24'/><line x1='1' y1='1' x2='23' y2='23'/></svg>");
+}
+
+.toggle-btn:hover {
+    background: #2A2450;
+    border-color: rgba(159, 197, 232, 0.4);
+    color: #FFFFFF;
+}
+
+.toggle-btn:active {
+    transform: scale(0.96);
+}
+
+/* ===== Кнопка отправки ===== */
+button[type="submit"] {
+    width: 100%;
+    margin-top: 10px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    letter-spacing: 0.3px;
+    color: #FFFFFF;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    background: #3F6FD1;
+    transition: background 0.2s, transform 0.1s;
+}
+
+button[type="submit"]:hover {
+    background: #3560B8;
+}
+
+button[type="submit"]:active {
+    transform: scale(0.98);
+}
+
+/* ===== Адаптив ===== */
+@media (max-width: 480px) {
+    form {
+        padding: 32px 22px;
+        border-radius: 14px;
+    }
+    h2 {
+        font-size: 22px;
+        margin-bottom: 28px;
+    }
+}*/

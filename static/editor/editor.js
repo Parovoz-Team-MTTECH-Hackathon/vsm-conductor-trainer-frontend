@@ -1,3 +1,5 @@
+import { request } from "../src/js/protocol.js";
+
 LiteGraph.registered_node_types = {};
 
 let isLoadingProject = false;
@@ -527,7 +529,7 @@ class NoticeNode extends ScenarioNode {
         super("Notice");
 
         this.addTextProperty("text", "Text")
-        
+
 
         this.addInInput()
         this.addOutput("out", "node");
@@ -546,7 +548,7 @@ class LoyaltyNode extends ScenarioNode {
         super("Loyalty");
 
         this.addNumberProperty("delta", "Loyalty delta")
-    
+
 
         this.addInInput()
         this.addOutput("out", "node");
@@ -1950,58 +1952,74 @@ async function fullCompileJSON(name, label, description) {
 }
 
 
-function load(){
-    var url = new URL(window.location.href);
-    var scenario_id_str = url.searchParams.get("scenario_id");
-    if (scenario_id_str == null){
-        alert("scenario_id get parameter is not defined") 
-    }
-    var scenario_id = Number(scenario_id)
+function load() {
+  var url = new URL(window.location.href);
+  var scenario_id_str = url.searchParams.get("scenario_id");
 
-    fetch('/scenario/project?scenario_id='+scenario_id, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    })
-    .then(response => {
-        if (response.status != 200){ 
-            alert("HTTP Error: " + response.status)
-        }
-        return response.json();
-    })
-    .then(data => {
-        loadProjectJSON(data);
-    })
-    .catch(error => {
-        alert('Error: ' + error);
-    });
+  if (scenario_id_str == null) {
+    alert("scenario_id get parameter is not defined");
+    return; // ← важно: без этого код пойдёт дальше с NaN
+  }
+
+  var scenario_id = Number(scenario_id_str); // ← было scenario_id, стало scenario_id_str
+
+  var json = request('/scenario/project?scenario_id=' + scenario_id, {}, 'GET');
+  loadProjectJSON(json);
 }
+//     fetch('/scenario/project?scenario_id='+scenario_id, {
+//         method: 'GET',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//     })
+//     .then(response => {
+//         if (response.status != 200){
+//             alert("HTTP Error: " + response.status)
+//         }
+//         return response.json();
+//     })
+//     .then(data => {
+//         loadProjectJSON(data);
+//     })
+//     .catch(error => {
+//         alert('Error: ' + error);
+//     });
+// }
 
-function upload(){
-    console.log("Uploading scenario to server...")
-    let data = fullCompileJSON(scenario_name, scenario_label, scenario_description).then(data => {
-        console.log("DATA: " + JSON.stringify(data));
-        fetch('/scenario/project?scenario_id='+scenario_id, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: data
-        })
-        .then(response => {
-            if (response.status != 200){ 
-                alert("HTTP Error: " + response.status)
-            }
-            return response.json();
-        })
-        .then(data => {
-        })
-        .catch(error => {
-            alert('Error: ' + error);
-        });
-    });
-    
+function upload() {
+  console.log("Uploading scenario to server...")
+  let data = fullCompileJSON(scenario_name, scenario_label, scenario_description).then(data => {
+    console.log("DATA: " + JSON.stringify(data));
+    console.log("DATA1: " + JSON.stringify( {
+      scenario_project_json: saveProjectJSON(),
+      scenario_compiled_json: data
+    }));
+    var json = request('/scenario/upload?scenario_id=' + scenario_id, {
+      scenario_project_json: saveProjectJSON(),
+      scenario_compiled_json: data
+    }, 'POST');
+  });
+
+    //     fetch('/scenario/project?scenario_id='+scenario_id, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: data
+    //     })
+    //     .then(response => {
+    //         if (response.status != 200){
+    //             alert("HTTP Error: " + response.status)
+    //         }
+    //         return response.json();
+    //     })
+    //     .then(data => {
+    //     })
+    //     .catch(error => {
+    //         alert('Error: ' + error);
+    //     });
+    // });
+
 }
 
 load()
